@@ -11,26 +11,14 @@ function Banner() {
         {
             image: bannerImg1,
             alt: "First banner image",
-            title: "Welcome to ZapShift",
-            subtitle: "Fast, Reliable, and Secure",
-            ctaText: "Get Started",
-            ctaLink: "/signup",
         },
         {
             image: bannerImg2,
             alt: "Second banner image",
-            title: "Our Coverage Area",
-            subtitle: "Serving you wherever you are",
-            ctaText: "See Coverage",
-            ctaLink: "/coverage",
         },
         {
             image: bannerImg3,
             alt: "Third banner image",
-            title: "Affordable Pricing",
-            subtitle: "Plans for every need",
-            ctaText: "View Plans",
-            ctaLink: "/pricing",
         },
     ];
 

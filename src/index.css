@@ -8,24 +8,19 @@
     --font-body: "Open Sans", sans-serif;
 
     /* Color Setup */
-    --color-primary: #CAEB66;
-    --color-secondary: #331A15;
+    --color-heading: #03373D;
+    --color-body: #606060;
 }
 
 @layer base {
-    body {
+     body {
         font-family: var(--font-body);
-        color: var(--color-primary);
+        color: var(--color-body);
         background-color: #fff;
     }
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
+    h1, h2, h3, h4, h5, h6 {
         font-family: var(--font-heading);
-        color: var(--color-secondary);
+        color: var(--color-heading);
     }
 }

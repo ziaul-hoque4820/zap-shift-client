@@ -29,7 +29,7 @@ function Navbar() {
             {/* Buttons */}
             <div className="hidden lg:flex items-center gap-3">
                 <button className="btn btn-outline btn-md rounded-sm text-[16px]">Sign In</button>
-                <button className="btn bg-lime-400 hover:bg-lime-500 text-[16px] text-gray-900 btn-md rounded-sm">Sign Up</button>
+                <button className="btn bg-[#CAEB66] hover:bg-lime-400 text-[16px] text-gray-900 btn-md rounded-sm">Sign Up</button>
                 <div className="w-9 h-9 bg-black rounded-full flex items-center justify-center hover:bg-black/70">
                     <span className="text-white text-lg">↗</span>
                 </div>
@@ -48,18 +48,18 @@ function Navbar() {
             {open && (
                 <div className="absolute top-full left-0 w-full bg-white shadow-md py-4 px-6 lg:hidden z-50">
                     <ul className="flex flex-col gap-4 text-gray-700">
-                        <li><Link to="/services">Services</Link></li>
-                        <li><Link to="/coverage">Coverage</Link></li>
-                        <li><Link to="/about">About Us</Link></li>
-                        <li><Link to="/pricing">Pricing</Link></li>
-                        <li><Link to="/blog">Blog</Link></li>
-                        <li><Link to="/contact">Contact</Link></li>
+                        <li><Link to="/services" className="hover:text-lime-500 text-[16px] font-medium">Services</Link></li>
+                        <li><Link to="/coverage" className="hover:text-lime-500 text-[16px] font-medium">Coverage</Link></li>
+                        <li><Link to="/about" className="hover:text-lime-500 text-[16px] font-medium">About Us</Link></li>
+                        <li><Link to="/pricing" className="hover:text-lime-500 text-[16px] font-medium">Pricing</Link></li>
+                        <li><Link to="/blog" className="hover:text-lime-500 text-[16px] font-medium">Blog</Link></li>
+                        <li><Link to="/contact" className="hover:text-lime-500 text-[16px] font-medium">Contact</Link></li>
                     </ul>
 
 
                     <div className="mt-6 flex flex-col gap-3">
                         <button className="btn btn-outline btn-md text-[16px] w-full rounded-sm">Sign In</button>
-                        <button className="btn bg-lime-400 text-gray-900 text-[16px] btn-md w-full rounded-sm">Sign Up</button>
+                        <button className="btn bg-[#CAEB66] text-gray-900 text-[16px] btn-md w-full rounded-sm">Sign Up</button>
                     </div>
                 </div>
             )}
