@@ -1,5 +1,7 @@
 import React from "react";
-import { FiTruck, FiGlobe, FiLayers, FiDollarSign, FiPackage, FiRepeat } from "react-icons/fi";
+import { FaHandHoldingUsd, FaMapMarkedAlt } from "react-icons/fa";
+import { FiTruck, FiLayers, FiRepeat } from "react-icons/fi";
+import { MdCorporateFare } from "react-icons/md";
 
 function Services() {
     const servicesInfo = [
@@ -9,7 +11,7 @@ function Services() {
             description: "We deliver parcels within 24–72 hours in Dhaka, Chittagong, Sylhet, Khulna, and Rajshahi. Express delivery available in Dhaka within 4–6 hours."
         },
         {
-            icon: <FiGlobe size={38} />,
+            icon: <FaMapMarkedAlt size={38} />,
             heading: "Nationwide Delivery",
             description: "Home delivery in every district, ensuring products reach customers within 48–72 hours."
         },
@@ -19,12 +21,12 @@ function Services() {
             description: "Inventory management, order processing, packaging & after-sales support."
         },
         {
-            icon: <FiDollarSign size={38} />,
+            icon: <FaHandHoldingUsd size={38} />,
             heading: "Cash on Delivery",
             description: "100% cash on delivery anywhere in Bangladesh with product safety."
         },
         {
-            icon: <FiPackage size={38} />,
+            icon: <MdCorporateFare size={38} />,
             heading: "Corporate Service",
             description: "Customized corporate logistics including warehouse and inventory management."
         },
