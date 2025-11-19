@@ -7,11 +7,11 @@ function Navbar() {
 
 
     return (
-        <nav className="fixed top-0 left-0 w-full py-2 bg-white shadow-sm px-4 lg:px-10 flex items-center justify-between z-50">
+        <nav className="w-full py-2 bg-white shadow-sm px-4 lg:px-10 flex items-center justify-between relative">
             {/* Logo */}
             <Link to={'/'} className="flex items-center gap-2 py-3">
                 <img className="w-6 h-6 bg-lime-400 rounded-sm rotate-45" src={Logo} alt="logo" />
-                <span className="text-2xl font-semibold text-gray-800">ZapShift</span>
+                <span className="text-2xl font-semibold text-gray-800 font-heading">ZapShift</span>
             </Link>
 
 
@@ -58,8 +58,8 @@ function Navbar() {
 
 
                     <div className="mt-6 flex flex-col gap-3">
-                        <button className="btn btn-outline btn-sm w-full rounded-md">Sign In</button>
-                        <button className="btn bg-lime-400 text-gray-900 btn-sm w-full rounded-md">Sign Up</button>
+                        <button className="btn btn-outline btn-md text-[16px] w-full rounded-sm">Sign In</button>
+                        <button className="btn bg-lime-400 text-gray-900 text-[16px] btn-md w-full rounded-sm">Sign Up</button>
                     </div>
                 </div>
             )}

@@ -6,14 +6,14 @@ import { Link } from 'react-router-dom';
 
 function Footer() {
     return (
-        <footer className="bg-black text-gray-300 py-12 px-6 md:px-16 mt-10">
+        <footer className="bg-black text-gray-300 py-12 px-6 md:px-16">
             <div className="max-w-5xl mx-auto text-center">
 
                 {/* Logo */}
                 <div className="mb-6 flex justify-center items-center gap-2">
                     <Link to={'/'} className="flex items-center gap-2 py-3">
                         <img className="w-6 h-6 bg-lime-400 rounded-sm rotate-45" src={Logo} alt="logo" />
-                        <span className="text-3xl font-semibold text-white">ZapShift</span>
+                        <span className="text-3xl font-semibold font-heading">ZapShift</span>
                     </Link>
                 </div>
 
