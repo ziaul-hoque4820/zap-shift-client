@@ -5,6 +5,7 @@ import ClientLogoMarquee from './ClientLogoMarquee'
 import HowItWorks from './HowItWorks'
 import FeatureSection from './FeatureSection'
 import Testimonials from './Testimonials'
+import BeMerchant from './BeMerchant'
 
 function Home() {
     return (
@@ -14,6 +15,7 @@ function Home() {
             <Services />
             <ClientLogoMarquee />
             <FeatureSection />
+            <BeMerchant />
             <Testimonials />
         </div>
     )
