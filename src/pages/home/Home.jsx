@@ -4,6 +4,7 @@ import Services from './Services'
 import ClientLogoMarquee from './ClientLogoMarquee'
 import HowItWorks from './HowItWorks'
 import FeatureSection from './FeatureSection'
+import Testimonials from './Testimonials'
 
 function Home() {
     return (
@@ -13,6 +14,7 @@ function Home() {
             <Services />
             <ClientLogoMarquee />
             <FeatureSection />
+            <Testimonials />
         </div>
     )
 }

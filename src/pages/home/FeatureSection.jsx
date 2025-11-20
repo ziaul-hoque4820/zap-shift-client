@@ -59,7 +59,7 @@ const FeatureSection = () => {
                         </div>
                     </div>
                 ))}
-                <div className="border-t-[2px] border-dashed border-[#03373D] mt-5 mt:mb-12"></div>
+                <div className="border-t-[2px] border-dashed border-[#03373D] mt-5 md:mt-12"></div>
             </div>
         </section>
     );
