@@ -6,6 +6,7 @@ import HowItWorks from './HowItWorks'
 import FeatureSection from './FeatureSection'
 import Testimonials from './Testimonials'
 import BeMerchant from './BeMerchant'
+import FAQs from './FAQs'
 
 function Home() {
     return (
@@ -17,6 +18,7 @@ function Home() {
             <FeatureSection />
             <BeMerchant />
             <Testimonials />
+            <FAQs />
         </div>
     )
 }
