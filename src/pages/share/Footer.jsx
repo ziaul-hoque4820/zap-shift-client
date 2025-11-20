@@ -12,7 +12,7 @@ function Footer() {
                 {/* Logo */}
                 <div className="mb-6 flex justify-center items-center gap-2">
                     <Link to={'/'} className="flex items-center gap-2 py-3">
-                        <img className="w-6 h-6 bg-lime-400 rounded-sm rotate-45" src={Logo} alt="logo" />
+                        <img className="w-6 h-6 bg-lime-600 rounded-sm rotate-45" src={Logo} alt="logo" />
                         <span className="text-3xl font-semibold font-heading">ZapShift</span>
                     </Link>
                 </div>

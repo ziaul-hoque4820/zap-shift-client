@@ -10,7 +10,7 @@ function Navbar() {
         <nav className="w-full py-2 bg-white shadow-sm px-4 lg:px-10 flex items-center justify-between relative">
             {/* Logo */}
             <Link to={'/'} className="flex items-center gap-2 py-3">
-                <img className="w-6 h-6 bg-lime-400 rounded-sm rotate-45" src={Logo} alt="logo" />
+                <img className="w-6 h-6 bg-lime-600 rounded-sm rotate-45" src={Logo} alt="logo" />
                 <span className="text-2xl font-semibold text-gray-800 font-heading">ZapShift</span>
             </Link>
 
