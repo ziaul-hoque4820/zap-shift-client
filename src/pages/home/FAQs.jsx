@@ -41,7 +41,7 @@ function FAQs() {
     }
 
     return (
-        <div className='bg-colorBg'>
+        <div className='bg-colorBg py-8'>
             <div className='section-container'>
 
                 <h2 className='text-center my-5 text-3xl font-semibold'>Question & Answer Section</h2>
