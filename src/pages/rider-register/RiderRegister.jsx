@@ -5,7 +5,7 @@ import RiderForm from './RiderForm';
 function RiderRegister() {
 
     return (
-        <div className='bg-gray-200 flex items-center justify-center'>
+        <div className='bg-gray-200 flex items-center justify-center lg:py-8'>
             <div className='max-w-6xl w-full bg-white rounded-sm shadow-xl overflow-hidden flex flex-col md:flex-row'>
 
                 {/* Left Side - Form */}

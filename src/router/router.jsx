@@ -8,6 +8,7 @@ import ForgotPassword from "../pages/authentications/ForgotPassword";
 import VerifyPassword from "../pages/authentications/VerifyPassword";
 import ResetPassword from "../pages/authentications/ResetPassword";
 import RiderRegister from "../pages/rider-register/RiderRegister";
+import Price from "../pages/price/Price";
 
 const router = createBrowserRouter([
     {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
             {
                 path: 'riderRegister',
                 Component: RiderRegister
+            },
+            {
+                path: 'pricing',
+                Component: Price
             },
         ]
     },
