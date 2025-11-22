@@ -28,8 +28,8 @@ function Navbar() {
 
             {/* Buttons */}
             <div className="hidden lg:flex items-center gap-3">
-                <button className="btn btn-outline btn-md rounded-sm text-[16px]">Sign In</button>
-                <button className="btn bg-[#CAEB66] hover:bg-lime-400 text-[16px] text-gray-900 btn-md rounded-sm">Sign Up</button>
+                <Link to={'/login'} className="btn btn-outline btn-md rounded-sm text-[16px]">Log In</Link>
+                <Link to={'/register'} className="btn bg-[#CAEB66] hover:bg-lime-400 text-[16px] text-gray-900 btn-md rounded-sm">Register</Link>
                 <div className="w-9 h-9 bg-black rounded-full flex items-center justify-center hover:bg-black/70">
                     <span className="text-white text-lg">↗</span>
                 </div>
@@ -58,8 +58,8 @@ function Navbar() {
 
 
                     <div className="mt-6 flex flex-col gap-3">
-                        <button className="btn btn-outline btn-md text-[16px] w-full rounded-sm">Sign In</button>
-                        <button className="btn bg-[#CAEB66] text-gray-900 text-[16px] btn-md w-full rounded-sm">Sign Up</button>
+                        <Link to={'/login'} className="btn btn-outline btn-md text-[16px] w-full rounded-sm">Log In</Link>
+                        <Link to={'/register'} className="btn bg-[#CAEB66] text-gray-900 text-[16px] btn-md w-full rounded-sm">Register</Link>
                     </div>
                 </div>
             )}
