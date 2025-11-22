@@ -9,6 +9,7 @@ import VerifyPassword from "../pages/authentications/VerifyPassword";
 import ResetPassword from "../pages/authentications/ResetPassword";
 import RiderRegister from "../pages/rider-register/RiderRegister";
 import Price from "../pages/price/Price";
+import AboutUs from "../pages/about/AboutUs";
 
 const router = createBrowserRouter([
     {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
             {
                 path: 'pricing',
                 Component: Price
+            },
+            {
+                path: 'about',
+                Component: AboutUs
             },
         ]
     },
