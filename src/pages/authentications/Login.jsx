@@ -78,7 +78,7 @@ function Login() {
                         onClick={togglePasswordVisibility}
                         className="absolute right-3 top-13 -translate-y-1/2 text-gray-500 hover:text-gray-700"
                     >
-                        {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+                        {showPassword ? <FaEye size={18} /> : <FaEyeSlash size={18} />}
                     </button>
 
                     {errors.password && (
@@ -108,9 +108,9 @@ function Login() {
                 {/* Submit */}
                 <button
                     type="submit"
-                    className="w-full py-3 bg-[#CAEB66] hover:bg-[#b0cf52] text-white font-semibold rounded-lg shadow-md transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full py-3 bg-[#CAEB66] hover:bg-[#b0cf52] text-heading font-semibold rounded-lg shadow-md transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                    Sign In
+                    Login
                 </button>
             </form>
 
