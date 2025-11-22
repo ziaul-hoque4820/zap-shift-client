@@ -5,6 +5,8 @@ import AuthLayout from "../layout/AuthLayout";
 import Login from "../pages/authentications/Login";
 import Register from "../pages/authentications/Register";
 import ForgotPassword from "../pages/authentications/ForgotPassword";
+import VerifyPassword from "../pages/authentications/VerifyPassword";
+import ResetPassword from "../pages/authentications/ResetPassword";
 
 const router = createBrowserRouter([
     {
@@ -32,6 +34,18 @@ const router = createBrowserRouter([
             {
                 path: 'forgot-password',
                 Component: ForgotPassword
+            },
+            {
+                path: 'forgot-password',
+                Component: ForgotPassword
+            },
+            {
+                path: 'verifyPassword',
+                Component: VerifyPassword
+            },
+            {
+                path: 'resetPassword',
+                Component: ResetPassword
             },
         ]
     }
