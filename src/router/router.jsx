@@ -7,6 +7,7 @@ import Register from "../pages/authentications/Register";
 import ForgotPassword from "../pages/authentications/ForgotPassword";
 import VerifyPassword from "../pages/authentications/VerifyPassword";
 import ResetPassword from "../pages/authentications/ResetPassword";
+import RiderRegister from "../pages/rider-register/RiderRegister";
 
 const router = createBrowserRouter([
     {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <Home />
+            },
+            {
+                path: 'riderRegister',
+                Component: RiderRegister
             },
         ]
     },

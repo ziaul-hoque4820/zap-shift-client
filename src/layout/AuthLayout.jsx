@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import Logo from '../assets/logo.png'
-import lideLogo from '../assets/authImage.png'
+import slideLogo from '../assets/authImage.png'
 
 function AuthLayout() {
     return (
@@ -21,7 +21,7 @@ function AuthLayout() {
                 <div className='hidden md:flex md:w-1/2 items-center bg-[#FAFDF0] justify-center p-12'>
                     <div className='text-center'>
                         <img
-                            src={lideLogo}
+                            src={slideLogo}
                             alt="Login Illustration"
                             className='w-full object-cover rounded-lg'
                         />

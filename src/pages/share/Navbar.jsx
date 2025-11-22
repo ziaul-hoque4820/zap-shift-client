@@ -21,7 +21,7 @@ function Navbar() {
                 <li><Link to="/coverage" className="hover:text-lime-500 text-[16px] font-medium">Coverage</Link></li>
                 <li><Link to="/about" className="hover:text-lime-500 text-[16px] font-medium">About Us</Link></li>
                 <li><Link to="/pricing" className="hover:text-lime-500 text-[16px] font-medium">Pricing</Link></li>
-                <li><Link to="/blog" className="hover:text-lime-500 text-[16px] font-medium">Blog</Link></li>
+                <li><Link to="/riderRegister" className="hover:text-lime-500 text-[16px] font-medium">Be a Rider</Link></li>
                 <li><Link to="/contact" className="hover:text-lime-500 text-[16px] font-medium">Contact</Link></li>
             </ul>
 
@@ -52,7 +52,7 @@ function Navbar() {
                         <li><Link to="/coverage" className="hover:text-lime-500 text-[16px] font-medium">Coverage</Link></li>
                         <li><Link to="/about" className="hover:text-lime-500 text-[16px] font-medium">About Us</Link></li>
                         <li><Link to="/pricing" className="hover:text-lime-500 text-[16px] font-medium">Pricing</Link></li>
-                        <li><Link to="/blog" className="hover:text-lime-500 text-[16px] font-medium">Blog</Link></li>
+                        <li><Link to="/riderRegister" className="hover:text-lime-500 text-[16px] font-medium">Be a Rider</Link></li>
                         <li><Link to="/contact" className="hover:text-lime-500 text-[16px] font-medium">Contact</Link></li>
                     </ul>
 
