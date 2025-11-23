@@ -3,16 +3,54 @@ import { useForm } from 'react-hook-form';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc'
 import { IoMdCamera } from 'react-icons/io';
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import useAuth from '../../hooks/useAuth'
+import { updateProfile } from 'firebase/auth';
 
 function Register() {
     const [error, setError] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const { createUser, signInWithGoogle } = useAuth();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const from = location.state || '/';
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
+    const handleGoogleRegister = () => {
+        signInWithGoogle()
+            .then(result => {
+                console.log(result);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    };
+
     const onSubmit = (data) => {
         console.log(data);
+        createUser(data.email, data.password)
+            .then((result) => {
+                console.log(result);
+                const updateUser = result.user;
+
+                // Update Firebase displayName and photoURL
+                updateProfile(updateUser, {
+                    displayName: data.name,
+                    photoURL: null
+                })
+                    .then(() => {
+                        console.log("Profile Updated");
+                    })
+                    .catch((error) => {
+                        console.log("Profile Update Error:", error);
+                    })
+
+                navigate(from);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     const togglePasswordVisibility = () => {
@@ -27,8 +65,8 @@ function Register() {
             </h2>
             <p className="text-center text-gray-600 mb-8">Register with ZapShift</p>
 
-            {/* Profile Picture Upload - responsive: stacked on small, row on sm+ */}
-            <div className="mb-6">
+            {/* Profile Picture Upload */}
+            {/* <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                     Profile Picture
                 </label>
@@ -72,7 +110,7 @@ function Register() {
                         </p>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             {/* Form */}
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -184,7 +222,7 @@ function Register() {
                 </div>
 
                 {/* Social Button */}
-                <button className="mt-6 w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 rounded-lg hover:bg-[#f8faef] transition-all hover:scale-105">
+                <button onClick={handleGoogleRegister} className="mt-6 w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 rounded-lg hover:bg-[#f8faef] transition-all hover:scale-105">
                     <FcGoogle className="text-2xl" />
                     <span className="text-sm font-medium">Register with Google</span>
                 </button>
