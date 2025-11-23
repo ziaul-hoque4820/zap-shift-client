@@ -11,6 +11,7 @@ import RiderRegister from "../pages/rider-register/RiderRegister";
 import Price from "../pages/price/Price";
 import AboutUs from "../pages/about/AboutUs";
 import Error from "../pages/error/Error";
+import TrackConsignment from "../pages/track-consignment/TrackConsignment";
 
 const router = createBrowserRouter([
     {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
             {
                 path: 'about',
                 Component: AboutUs
+            },
+            {
+                path: 'trackConsignment',
+                Component: TrackConsignment
             },
             {
                 path: '*',
