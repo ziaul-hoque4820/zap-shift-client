@@ -53,12 +53,19 @@ function Register() {
                                 <span>Choose photo</span>
                             </span>
                             <input
+                                {...register("profile_image", { required: "Profile Image is required" })}
                                 id="profilePicture"
                                 name="profilePicture"
                                 type="file"
-                                className="sr-only"
+                                className={`sr-only ${errors?.name ? "border-red-500" : "border-gray-300"
+                                    }`}
                                 accept="image/*"
                             />
+                            {errors?.profile_image && (
+                                <p className="text-sm italic mt-1 text-red-500">
+                                    {errors.profile_image.message}
+                                </p>
+                            )}
                         </label>
                         <p className="mt-1 text-xs text-gray-500 dark:text-gray-400 text-center mx-auto">
                             PNG, JPG, GIF up to 2MB
