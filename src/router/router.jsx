@@ -10,6 +10,7 @@ import ResetPassword from "../pages/authentications/ResetPassword";
 import RiderRegister from "../pages/rider-register/RiderRegister";
 import Price from "../pages/price/Price";
 import AboutUs from "../pages/about/AboutUs";
+import Error from "../pages/error/Error";
 
 const router = createBrowserRouter([
     {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
             {
                 path: 'about',
                 Component: AboutUs
+            },
+            {
+                path: '*',
+                Component: Error
             },
         ]
     },
