@@ -12,6 +12,7 @@ import Price from "../pages/price/Price";
 import AboutUs from "../pages/about/AboutUs";
 import Error from "../pages/error/Error";
 import TrackConsignment from "../pages/track-consignment/TrackConsignment";
+import ParcelBookingForm from "../pages/parcel-booking/ParcelBookingForm";
 
 const router = createBrowserRouter([
     {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
             {
                 path: 'trackConsignment',
                 Component: TrackConsignment
+            },
+            {
+                path: 'parcelBookingForm',
+                Component: ParcelBookingForm
             },
             {
                 path: '*',
