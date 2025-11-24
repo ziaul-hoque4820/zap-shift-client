@@ -21,6 +21,7 @@ function Register() {
         signInWithGoogle()
             .then(result => {
                 console.log(result);
+                navigate(from);
             })
             .catch(error => {
                 console.log(error);

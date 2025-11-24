@@ -1,22 +1,71 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
+import useAuth from '../../hooks/useAuth';
 
 function Login() {
     const [error, setError] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const { signInUser, signInWithGoogle, signOutUser } = useAuth();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const from = location.state || '/';
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const onSubmit = (data) => {
-        console.log(data);
-    }
+        console.log(data.email, data.password);
+        signInUser(data.email, data.password)
+            .then(result => {
+                console.log(result.user);
+                navigate(from);
+            })
+            .catch(err => {
+                console.log(err.code);
+
+                if (err.code === "auth/invalid-credential") {
+                    setError(" No account found with this email!");
+                }
+                else if (err.code === "auth/wrong-password") {
+                    setError(" Wrong password! Try again.");
+                }
+                else if (err.code === "auth/invalid-email") {
+                    setError(" Invalid email format!");
+                }
+                else {
+                    setError(" Login failed! Try again later.");
+                }
+            });
+    };
+
+    const handleGoogleLogin = () => {
+        signInWithGoogle()
+            .then(result => {
+
+                // Firebase checks if this is a NEW user
+                const isNewUser = result._tokenResponse?.isNewUser;
+
+                if (isNewUser) {
+                    //  Not Registered Yet → Stop Login
+                    setError("This email is not approved for Google login!");
+                    signOutUser(); 
+                    return;
+                }
+
+                navigate(from);
+            })
+            .catch(err => {
+                console.log(err.code);
+                setError("Google login failed! Try again.");
+            });
+    };
+
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
-    }
+    };
 
 
     return (
@@ -123,7 +172,7 @@ function Login() {
                 </div>
 
                 {/* Social Button */}
-                <button className="mt-6 w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 rounded-lg hover:bg-[#f8faef] transition-all hover:scale-105">
+                <button onClick={handleGoogleLogin} className="mt-6 w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 rounded-lg hover:bg-[#f8faef] transition-all hover:scale-105">
                     <FcGoogle className="text-2xl" />
                     <span className="text-sm font-medium">Login with Google</span>
                 </button>
