@@ -2,7 +2,7 @@ import React from 'react';
 import bookImage from '../../assets/booking.png';
 import cashImage from '../../assets/cash-on-delivery.png';
 import deliveryImage from '../../assets/freight-delivery.png';
-import bookingSMEImage from '../../assets/hub.png';
+import bookingSMEImage from '../../assets/hub-delivery.png';
 
 const HowItWorks = () => {
     const features = [

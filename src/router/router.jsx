@@ -14,7 +14,6 @@ import Error from "../pages/error/Error";
 import TrackConsignment from "../pages/track-consignment/TrackConsignment";
 import ParcelBookingForm from "../pages/parcel-booking/ParcelBookingForm";
 import Coverage from "../pages/coverage/Coverage";
-import werehouseData from '../data/warehouses.json'
 
 const router = createBrowserRouter([
     {
@@ -47,7 +46,7 @@ const router = createBrowserRouter([
             },
             {
                 path: 'coverage',
-                Component: Coverage
+                Component: Coverage,
             },
             {
                 path: '*',
