@@ -76,7 +76,7 @@ function Navbar() {
 
             {/* Menu for Desktop */}
             <ul className="hidden lg:flex items-center gap-8 text-gray-600 text-sm">
-                <li><Link to="/services" className="hover:text-lime-500 text-[16px] font-medium">Services</Link></li>
+                <li><Link to="/parcelBookingForm" className="hover:text-lime-500 text-[16px] font-medium">Send Parcel</Link></li>
                 <li><Link to="/coverage" className="hover:text-lime-500 text-[16px] font-medium">Coverage</Link></li>
                 <li><Link to="/about" className="hover:text-lime-500 text-[16px] font-medium">About Us</Link></li>
                 <li><Link to="/pricing" className="hover:text-lime-500 text-[16px] font-medium">Pricing</Link></li>
@@ -142,7 +142,7 @@ function Navbar() {
                     <div className="fixed inset-0 z-40 lg:hidden" aria-hidden onClick={() => setOpen(false)} />
                     <div ref={mobileRef} className="absolute top-full left-0 w-full bg-white shadow-md py-4 px-6 lg:hidden z-50">
                         <ul className="flex flex-col gap-4 text-gray-700">
-                            <li><Link to="/services" onClick={handleMobileLinkClick} className="hover:text-lime-500 text-[16px] font-medium">Services</Link></li>
+                            <li><Link to="/parcelBookingForm" onClick={handleMobileLinkClick} className="hover:text-lime-500 text-[16px] font-medium">Send Parcel</Link></li>
                             <li><Link to="/coverage" onClick={handleMobileLinkClick} className="hover:text-lime-500 text-[16px] font-medium">Coverage</Link></li>
                             <li><Link to="/about" onClick={handleMobileLinkClick} className="hover:text-lime-500 text-[16px] font-medium">About Us</Link></li>
                             <li><Link to="/pricing" onClick={handleMobileLinkClick} className="hover:text-lime-500 text-[16px] font-medium">Pricing</Link></li>

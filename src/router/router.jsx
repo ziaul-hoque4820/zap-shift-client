@@ -14,6 +14,7 @@ import Error from "../pages/error/Error";
 import TrackConsignment from "../pages/track-consignment/TrackConsignment";
 import ParcelBookingForm from "../pages/parcel-booking/ParcelBookingForm";
 import Coverage from "../pages/coverage/Coverage";
+import PrivateRoute from "../routes/PrivateRoute";
 
 const router = createBrowserRouter([
     {
@@ -42,7 +43,7 @@ const router = createBrowserRouter([
             },
             {
                 path: 'parcelBookingForm',
-                Component: ParcelBookingForm
+                element: <PrivateRoute><ParcelBookingForm></ParcelBookingForm></PrivateRoute>
             },
             {
                 path: 'coverage',
