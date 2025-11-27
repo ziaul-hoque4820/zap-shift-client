@@ -15,6 +15,8 @@ import TrackConsignment from "../pages/track-consignment/TrackConsignment";
 import ParcelBookingForm from "../pages/parcel-booking/ParcelBookingForm";
 import Coverage from "../pages/coverage/Coverage";
 import PrivateRoute from "../routes/PrivateRoute";
+import DashboardLayout from "../layout/DashboardLayout";
+import MyParcels from "../pages/deshboard/my-parcels/MyParcels";
 
 const router = createBrowserRouter([
     {
@@ -83,6 +85,16 @@ const router = createBrowserRouter([
                 path: 'resetPassword',
                 Component: ResetPassword
             },
+        ]
+    },
+    {
+        path: 'dashboard',
+        element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
+        children: [
+            {
+                path: 'myParcels',
+                Component: MyParcels
+            }
         ]
     }
 ]);

@@ -111,7 +111,7 @@ function Navbar() {
 
                         {avatarMenuOpen && (
                             <ul className="menu menu-sm dropdown-content bg-base-100 rounded-box w-52 mt-2 p-2 shadow z-50 absolute right-0">
-                                <li><Link to={'/my-posted-jobs'} onClick={() => setAvatarMenuOpen(false)}>Dashboard</Link></li>
+                                <li><Link to={'/dashboard'} onClick={() => setAvatarMenuOpen(false)}>Dashboard</Link></li>
                                 <li><Link to={'/addjob'} onClick={() => setAvatarMenuOpen(false)}>Add New Job</Link></li>
                                 <li><button onClick={handleSignOut} className="w-full text-left text-red-600">Logout</button></li>
                             </ul>
@@ -170,7 +170,7 @@ function Navbar() {
                                         </div>
                                     </div>
 
-                                    <Link to={'/my-posted-jobs'} onClick={handleMobileLinkClick} className="block py-2 px-4 rounded-lg hover:bg-gray-100 transition-colors">Dashboard</Link>
+                                    <Link to={'/dashboard'} onClick={handleMobileLinkClick} className="block py-2 px-4 rounded-lg hover:bg-gray-100 transition-colors">Dashboard</Link>
                                     <Link to={'/addjob'} onClick={handleMobileLinkClick} className="block py-2 px-4 rounded-lg hover:bg-gray-100 transition-colors">Add New Job</Link>
                                     <button
                                         className="block w-full text-left py-2 px-4 rounded-lg hover:bg-gray-100 transition-colors text-red-600"
