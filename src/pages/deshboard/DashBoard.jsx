@@ -3,18 +3,7 @@ import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-
-import {
-    Package,
-    Truck,
-    CheckCircle,
-    Clock,
-    AlertCircle,
-    DollarSign,
-    MapPin,
-    TrendingUp,
-    Calendar
-} from "lucide-react";
+import { Package, Truck, CheckCircle, Clock, AlertCircle, DollarSign, MapPin, TrendingUp, Calendar } from "lucide-react";
 
 function DashBoard() {
     const { user } = useAuth();

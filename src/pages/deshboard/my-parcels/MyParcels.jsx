@@ -1,13 +1,14 @@
 import React from "react";
 import useAuth from "../../../hooks/useAuth";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Loader2, MapPin, Package, Trash2, Edit3, Truck } from "lucide-react";
+import Swal from "sweetalert2";
 
 function MyParcels() {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
-
+    const queryClient = useQueryClient();
     const { data: parcels = [], isLoading } = useQuery({
         queryKey: ["my-parcels", user.email],
         queryFn: async () => {
@@ -15,6 +16,44 @@ function MyParcels() {
             return res.data;
         },
     });
+
+    const handleDelete = async (id) => {
+        const confirm = await Swal.fire({
+            text: "This Parcel will be permanently deleted!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, Delete it",
+            cancelButtonText: "Cancel",
+            confirmButtonColor: "#e11d48",
+            cancelButtonColor: "#6b7280",
+        });
+
+        // Important: confirm.isConfirmed
+        if (confirm.isConfirmed) {
+            try {
+                const res = await axiosSecure.delete(`/parcels/${id}`);
+
+                if (res.data.deletedCount) {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Parcel has been deleted.",
+                        icon: "success",
+                        timer: 1000,
+                        showConfirmButton: false,
+                    });
+
+                    // React Query Cache Refresh
+                    queryClient.invalidateQueries(["my-parcels", user.email]);
+                }
+            } catch (error) {
+                Swal.fire({
+                    title: "Error",
+                    text: "Something went wrong!",
+                    icon: "error",
+                });
+            }
+        }
+    };
 
     if (isLoading) {
         return (
@@ -56,7 +95,7 @@ function MyParcels() {
                                     {parcel.parcelName}
                                 </h2>
                                 <span className={`text-sm px-3 py-1 rounded-full font-medium ${parcel.delivery_status === "not_collected" ? "bg-red-50 text-red-700 border border-red-200" :
-                                        "bg-teal-50 text-teal-700 border border-teal-200"
+                                    "bg-teal-50 text-teal-700 border border-teal-200"
                                     }`}>
                                     {parcel.delivery_status}
                                 </span>
@@ -99,7 +138,7 @@ function MyParcels() {
                                     <Edit3 className="w-5 h-5" />
                                 </button>
 
-                                <button className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition cursor-pointer">
+                                <button onClick={() => handleDelete(parcel._id)} className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition cursor-pointer">
                                     <Trash2 className="w-5 h-5" />
                                 </button>
                             </div>
