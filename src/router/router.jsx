@@ -18,6 +18,7 @@ import PrivateRoute from "../routes/PrivateRoute";
 import DashboardLayout from "../layout/DashboardLayout";
 import MyParcels from "../pages/deshboard/my-parcels/MyParcels";
 import DashBoard from "../pages/deshboard/DashBoard";
+import Payment from "../pages/deshboard/payment/Payment";
 
 const router = createBrowserRouter([
     {
@@ -99,6 +100,10 @@ const router = createBrowserRouter([
             {
                 path: 'myParcels',
                 Component: MyParcels
+            },
+            {
+                path: 'payment/:id',
+                Component: Payment
             }
         ]
     }

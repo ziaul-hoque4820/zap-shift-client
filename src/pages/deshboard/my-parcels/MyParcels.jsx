@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Loader2, MapPin, Package, Trash2, Edit3, Truck } from "lucide-react";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 function MyParcels() {
     const { user } = useAuth();
@@ -115,7 +116,6 @@ function MyParcels() {
                                 {parcel.receiverAreaOrCity}
                             </p>
                             <p className="text-sm text-gray-600 mb-2 flex items-center gap-1">
-                                <MapPin className="w-4 h-4 text-gray-400" />
                                 <strong>Payment Status:</strong>
                                 <span className={`text-sm font-bold px-3 py-1 rounded-full ${parcel.payment_status === "unpaid" ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"}`}>
                                     {parcel.payment_status}
@@ -130,6 +130,10 @@ function MyParcels() {
 
                             {/* Action Buttons */}
                             <div className="flex items-center justify-between mt-4">
+                                <Link to={`/dashboard/payment/${parcel._id}`} className="p-2 rounded-lg bg-green-100 text-green-600 hover:bg-green-200 transition cursor-pointer">
+                                    payment
+                                </Link>
+
                                 <button className="p-2 rounded-lg bg-blue-100 text-blue-600 hover:bg-blue-200 transition cursor-pointer">
                                     <Truck className="w-5 h-5 " />
                                 </button>
