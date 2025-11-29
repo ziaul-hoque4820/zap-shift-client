@@ -4,15 +4,17 @@ import CheckoutFrom from './CheckoutFrom'
 import { loadStripe } from '@stripe/stripe-js';
 import { useParams } from 'react-router-dom';
 
-const stripePromise = loadStripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
+const stripePromise = loadStripe(import.meta.env.VITE_PAYMENT_KEY);
 
 function Payment() {
 
     const { id } = useParams();
+    console.log(id);
+    
 
     return (
         <Elements stripe={stripePromise}>
-            <CheckoutFrom />
+            <CheckoutFrom parcelId={id} />
         </Elements>
     )
 }
