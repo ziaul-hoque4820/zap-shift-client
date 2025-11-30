@@ -200,18 +200,18 @@ function DashBoard() {
                         <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
                         <div className="space-y-3">
                             <Link
-                                to="/dashboard/myParcels"
+                                to="/parcelBookingForm"
                                 className="flex items-center space-x-3 p-3 bg-teal-50 text-teal-700 rounded-lg hover:bg-teal-100 transition-colors"
                             >
                                 <Package className="w-5 h-5" />
                                 <span className="font-medium">Send New Parcel</span>
                             </Link>
                             <Link
-                                to="/dashboard"
+                                to="/dashboard/paymentHistory"
                                 className="flex items-center space-x-3 p-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors"
                             >
                                 <DollarSign className="w-5 h-5" />
-                                <span className="font-medium">Make Payment</span>
+                                <span className="font-medium">Payment History</span>
                             </Link>
                             <Link
                                 to="/dashboard"

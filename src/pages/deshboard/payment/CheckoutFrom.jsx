@@ -97,6 +97,7 @@ function CheckoutFrom({ parcelId }) {
                     paymentIntentId: paymentIntent.id,
                     amount,
                     userEmail: user.email,
+                    paymentMethod
                 });
 
                 Swal.fire({

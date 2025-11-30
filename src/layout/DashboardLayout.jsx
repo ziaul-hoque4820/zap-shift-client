@@ -60,7 +60,7 @@ const DashboardLayout = () => {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/dashboard">
+                        <NavLink to="/dashboard/paymentHistory">
                             <FaMoneyCheckAlt className="inline-block mr-2" />
                             Payment History
                         </NavLink>
