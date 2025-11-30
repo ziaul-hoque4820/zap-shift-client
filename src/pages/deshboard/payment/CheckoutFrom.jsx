@@ -3,6 +3,8 @@ import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import Swal from "sweetalert2";
+import useAuth from '../../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 function CheckoutFrom({ parcelId }) {
     const stripe = useStripe();
@@ -10,6 +12,9 @@ function CheckoutFrom({ parcelId }) {
     const [error, setError] = useState('');
     const [processing, setProcessing] = useState(false);
     const axiosSecure = useAxiosSecure();
+    const { user } = useAuth();
+    const navigate = useNavigate();
+    
 
     const { isPending, data: parcelInfo = {} } = useQuery({
         queryKey: ['parcels', parcelId],
@@ -86,13 +91,23 @@ function CheckoutFrom({ parcelId }) {
                 return;
             }
 
+            // SUCCESS 
             if (paymentIntent.status === "succeeded") {
+                await axiosSecure.patch(`/parcel/payment-success/${parcelId}`, {
+                    paymentIntentId: paymentIntent.id,
+                    amount,
+                    userEmail: user.email,
+                });
+
                 Swal.fire({
                     title: "Payment Successful!",
                     text: `Your payment of ${amount} Tk is complete.`,
                     icon: "success",
                     confirmButtonColor: "#84cc16",
                 });
+
+                // redirect to /myparcels
+                navigate('/dashboard/myParcels')
             }
 
         } catch (error) {
@@ -146,7 +161,7 @@ function CheckoutFrom({ parcelId }) {
                         type="submit"
                         disabled={!stripe || processing}
                         className="w-full py-3 bg-[#CAEB66] hover:bg-[#b2d15d] hover:text-white text-heading 
-                        font-semibold rounded-lg shadow-md transition-all transform hover:scale-105"
+                        font-semibold rounded-lg shadow-md transition-all transform hover:scale-105 cursor-pointer"
                     >
                         {processing ? "Processing…" : `Pay ${amount} Tk`}
                     </button>

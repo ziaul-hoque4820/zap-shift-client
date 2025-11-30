@@ -130,17 +130,19 @@ function MyParcels() {
 
                             {/* Action Buttons */}
                             <div className="flex items-center justify-between mt-4">
-                                <Link to={`/dashboard/payment/${parcel._id}`} className="p-2 rounded-lg bg-green-100 text-green-600 hover:bg-green-200 transition cursor-pointer">
-                                    payment
-                                </Link>
+                                {parcel.payment_status === 'unpaid' && (
+                                    <Link to={`/dashboard/payment/${parcel._id}`} className="p-2 rounded-lg bg-lime-200 text-black hover:bg-lime-300 transition cursor-pointer">
+                                        payment
+                                    </Link>
+                                )}
 
                                 <button className="p-2 rounded-lg bg-blue-100 text-blue-600 hover:bg-blue-200 transition cursor-pointer">
                                     <Truck className="w-5 h-5 " />
                                 </button>
 
-                                <button className="p-2 rounded-lg bg-yellow-100 text-yellow-600 hover:bg-yellow-200 transition cursor-pointer">
+                                {/* <button className="p-2 rounded-lg bg-yellow-100 text-yellow-600 hover:bg-yellow-200 transition cursor-pointer">
                                     <Edit3 className="w-5 h-5" />
-                                </button>
+                                </button> */}
 
                                 <button onClick={() => handleDelete(parcel._id)} className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition cursor-pointer">
                                     <Trash2 className="w-5 h-5" />
