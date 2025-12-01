@@ -6,14 +6,18 @@ import { IoMdCamera } from 'react-icons/io';
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
 import { updateProfile } from 'firebase/auth';
+import axios from 'axios';
 
 function Register() {
-    const [error, setError] = useState("");
+    const [err, setErr] = useState("");
+    const [profilePic, setProfilePic] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
     const { createUser, signInWithGoogle } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
     const from = location.state || '/';
+
+    const defaultPlaceholder = "data:image/svg+xml,%3csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100' height='100' fill='%23e5e7eb'/%3e%3ctext x='50%25' y='50%25' font-size='18' text-anchor='middle' alignment-baseline='middle' fill='%236b7280'%3ePhoto%3c/text%3e%3c/svg%3e";
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -38,7 +42,7 @@ function Register() {
                 // Update Firebase displayName and photoURL
                 updateProfile(updateUser, {
                     displayName: data.name,
-                    photoURL: null
+                    photoURL: profilePic ? profilePic : null,
                 })
                     .then(() => {
                         console.log("Profile Updated");
@@ -58,6 +62,38 @@ function Register() {
         setShowPassword(!showPassword);
     }
 
+    const handleImageChange = async (e) => {
+        const file = e.target.files[0];
+
+        if (!file) return;
+
+        //  oversize validation
+        if (file.size > 2 * 1024 * 1024) {
+            return setErr("Image size should be less than 2MB");
+        }
+
+
+        // preview
+        const tempUrl = URL.createObjectURL(file);
+        setProfilePic(tempUrl);
+
+        // upload to imgbb
+        const formData = new FormData();
+        formData.append("image", file);
+
+        const imgbbKey = import.meta.env.VITE_IMGBB_KEY;
+        const url = `https://api.imgbb.com/1/upload?key=${imgbbKey}`;
+
+        const res = await axios.post(url, formData);
+        const uploadedURL = res.data.data.display_url;
+
+        // store uploaded url for firebase
+        setProfilePic(uploadedURL);
+
+        // push file into RHF
+        // setValue("profile_image", uploadedURL, { shouldValidate: true });
+    }
+
 
     return (
         <div className="w-full max-w-md mx-auto py-10">
@@ -67,51 +103,53 @@ function Register() {
             <p className="text-center text-gray-600 mb-8">Register with ZapShift</p>
 
             {/* Profile Picture Upload */}
-            {/* <div className="mb-6">
+            <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                     Profile Picture
                 </label>
 
-                <div className="flex flex-col sm:flex-row items-center sm:items-start justify-center gap-4">
+                <div className="flex flex-col sm:flex-row items-center gap-4">
+
+                    {/* FIX: Preview Image updated */}
                     <div className="shrink-0">
                         <img
-                            id="profilePreview"
-                            className="h-20 w-20 object-cover rounded-full border-2 border-gray-300 dark:border-gray-600"
-                            src="data:image/svg+xml,%3csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100' height='100' fill='%23e5e7eb'/%3e%3ctext x='50%25' y='50%25' font-size='18' text-anchor='middle' alignment-baseline='middle' fill='%236b7280'%3ePhoto%3c/text%3e%3c/svg%3e"
+                            className="h-20 w-20 object-cover rounded-full border-2 border-gray-300"
+                            src={profilePic || defaultPlaceholder}
                             alt="Profile preview"
                         />
                     </div>
 
-                    <div className="flex-1 max-w-xs w-ful md:mt-4 sm:mt-0">
+                    <div className="flex-1 max-w-xs w-full">
                         <label
                             htmlFor="profilePicture"
-                            className="relative cursor-pointer w-full bg-white dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 py-2 px-4 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500 transition block text-center"
+                            className="relative cursor-pointer w-full bg-white dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 py-2 px-4 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition block text-center"
                         >
                             <span className="flex items-center justify-center gap-2">
                                 <IoMdCamera className="text-lg" />
                                 <span>Choose photo</span>
                             </span>
+
                             <input
-                                {...register("profile_image", { required: "Profile Image is required" })}
                                 id="profilePicture"
-                                name="profilePicture"
                                 type="file"
-                                className={`sr-only ${errors?.name ? "border-red-500" : "border-gray-300"
-                                    }`}
                                 accept="image/*"
+                                className="sr-only"
+
+                                {...register("profile_image", {
+                                    required: true,
+                                })}
+
+                                onChange={handleImageChange}
                             />
-                            {errors?.profile_image && (
-                                <p className="text-sm italic mt-1 text-red-500">
-                                    {errors.profile_image.message}
-                                </p>
-                            )}
                         </label>
-                        <p className="mt-1 text-xs text-gray-500 dark:text-gray-400 text-center mx-auto">
-                            PNG, JPG, GIF up to 2MB
+
+                        <p className="mt-1 text-xs text-gray-500 dark:text-gray-400 text-center">
+                            PNG / JPG / GIF — Max 2MB
                         </p>
                     </div>
                 </div>
-            </div> */}
+            </div>
+
 
             {/* Form */}
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -199,9 +237,9 @@ function Register() {
                 </div>
 
                 {/* Global form error */}
-                {error && (
+                {err && (
                     <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
-                        <p className="text-sm text-red-600 text-center">{error}</p>
+                        <p className="text-sm text-red-600 text-center">{err}</p>
                     </div>
                 )}
 

@@ -20,6 +20,7 @@ import MyParcels from "../pages/deshboard/my-parcels/MyParcels";
 import DashBoard from "../pages/deshboard/DashBoard";
 import Payment from "../pages/deshboard/payment/Payment";
 import PaymentHistory from "../pages/deshboard/payment-history/PaymentHistory";
+import TrackParcel from "../pages/deshboard/track-parcel/TrackParcel";
 
 const router = createBrowserRouter([
     {
@@ -109,6 +110,10 @@ const router = createBrowserRouter([
             {
                 path: 'paymentHistory',
                 Component: PaymentHistory
+            },
+            {
+                path: 'track',
+                Component: TrackParcel
             }
         ]
     }
