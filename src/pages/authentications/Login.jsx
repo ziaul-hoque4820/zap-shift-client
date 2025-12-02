@@ -49,7 +49,7 @@ function Login() {
 
                 if (isNewUser) {
                     //  Not Registered Yet → Stop Login
-                    setError("This email is not approved for Google login!");
+                    setError("This email is not approved for Google login! Go to Register first.");
                     signOutUser(); 
                     return;
                 }

@@ -7,12 +7,14 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
 import { updateProfile } from 'firebase/auth';
 import axios from 'axios';
+import useAxios from '../../hooks/useAxios';
 
 function Register() {
     const [err, setErr] = useState("");
     const [profilePic, setProfilePic] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
     const { createUser, signInWithGoogle } = useAuth();
+    const axiosInstance = useAxios();
     const location = useLocation();
     const navigate = useNavigate();
     const from = location.state || '/';
@@ -23,8 +25,22 @@ function Register() {
 
     const handleGoogleRegister = () => {
         signInWithGoogle()
-            .then(result => {
+            .then(async (result) => {
                 console.log(result);
+                const user = result.user;
+
+                // update user info in the database
+                const userInfo = {
+                    name: user.displayName,
+                    email: user.email,
+                    photoURL: user.photoURL ? user.photoURL : null,
+                    role: 'user',  // default role
+                    created_at: new Date().toISOString(),
+                }
+
+                const res = await axiosInstance.post('/users', userInfo);
+                console.log("User info saved:", res.data);
+
                 navigate(from);
             })
             .catch(error => {
@@ -35,9 +51,21 @@ function Register() {
     const onSubmit = (data) => {
         console.log(data);
         createUser(data.email, data.password)
-            .then((result) => {
+            .then(async (result) => {
                 console.log(result);
                 const updateUser = result.user;
+
+                // update user info in the database
+                const userInfo = {
+                    name: data.name,
+                    email: data.email,
+                    photoURL: profilePic ? profilePic : null,
+                    role: 'user',  // default role
+                    created_at: new Date().toISOString(),
+                }
+
+                const userRes = await axiosInstance.post('/users', userInfo);
+                console.log("User info saved:", userRes.data);
 
                 // Update Firebase displayName and photoURL
                 updateProfile(updateUser, {
@@ -89,9 +117,6 @@ function Register() {
 
         // store uploaded url for firebase
         setProfilePic(uploadedURL);
-
-        // push file into RHF
-        // setValue("profile_image", uploadedURL, { shouldValidate: true });
     }
 
 
