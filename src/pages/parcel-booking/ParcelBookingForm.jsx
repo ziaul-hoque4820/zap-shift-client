@@ -15,7 +15,7 @@ const generateTrackingID = () => {
 };
 
 const ParcelBookingForm = () => {
-    const { register, handleSubmit, formState: { errors }, watch } = useForm({
+    const { register, handleSubmit, reset, formState: { errors }, watch } = useForm({
         defaultValues: { parcelType: "Document" },
     });
 
@@ -115,6 +115,7 @@ const ParcelBookingForm = () => {
                             showConfirmButton: false,
                         });
                     }
+                    reset();
                 });
             }
         });

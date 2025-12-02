@@ -33,7 +33,7 @@ const router = createBrowserRouter([
             },
             {
                 path: 'riderRegister',
-                Component: RiderRegister
+                element: <PrivateRoute><RiderRegister></RiderRegister></PrivateRoute>
             },
             {
                 path: 'pricing',
