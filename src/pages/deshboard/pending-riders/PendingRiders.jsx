@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import {CheckCircle,XCircle,User,Phone,Mail,MapPin,Calendar,Clock,Search,Filter,ChevronDown,ChevronUp,Bike,UserCheck,AlertCircle} from 'lucide-react';
+import { CheckCircle, XCircle, User, Phone, Mail, MapPin, Calendar, Clock, Search, Filter, ChevronDown, ChevronUp, Bike, UserCheck, AlertCircle } from 'lucide-react';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { timeAgo } from '../../../utils/utils';
+import Swal from 'sweetalert2';
 
 const PendingRiders = () => {
     const axiosSecure = useAxiosSecure();
@@ -11,8 +12,6 @@ const PendingRiders = () => {
     const [selectedDistrict, setSelectedDistrict] = useState('all');
     const [selectedVehicle, setSelectedVehicle] = useState('all');
     const [expandedCard, setExpandedCard] = useState(null);
-    const [showApprovedModal, setShowApprovedModal] = useState(false);
-    const [showRejectedModal, setShowRejectedModal] = useState(false);
 
     // Fetch pending riders
     const { data: pendingRiders = [], isLoading, error } = useQuery({
@@ -25,31 +24,71 @@ const PendingRiders = () => {
 
     // Approve rider
     const handleApprove = async (riderId) => {
-        try {
-            await axiosSecure.patch(`/riders/${riderId}/status`, { status: 'approved' });
-            setShowApprovedModal(true);
-            queryClient.invalidateQueries(['pendingRiders']);
+        const confirm = await Swal.fire({
+            title: "Approve Application?",
+            text: "Are you sure you want to approve this rider?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Approve",
+            cancelButtonText: "Cancel"
+        });
 
-            // Auto hide modal after 3 seconds
-            setTimeout(() => setShowApprovedModal(false), 3000);
+        if (!confirm.isConfirmed) return;
+
+        try {
+            await axiosSecure.patch(`/riders/${riderId}/approve`);
+            await Swal.fire({
+                title: "Approved!",
+                text: "The rider has been approved successfully.",
+                icon: "success",
+                timer: 1800,
+                showConfirmButton: false
+            });
+
+            queryClient.invalidateQueries(['pendingRiders']);
         } catch (error) {
-            console.error('Error approving rider:', error);
+            Swal.fire({
+                title: "Error",
+                text: "Failed to approve the rider. Try again.",
+                icon: "error"
+            });
         }
     };
 
     // Reject rider
     const handleReject = async (riderId) => {
-        try {
-            await axiosSecure.patch(`/riders/${riderId}/status`, { status: 'rejected' });
-            setShowRejectedModal(true);
-            queryClient.invalidateQueries(['pendingRiders']);
+        const confirm = await Swal.fire({
+            title: "Reject & Delete Rider?",
+            text: "This action will permanently delete the rider application.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Delete",
+            cancelButtonText: "Cancel"
+        });
 
-            // Auto hide modal after 3 seconds
-            setTimeout(() => setShowRejectedModal(false), 3000);
+        if (!confirm.isConfirmed) return;
+
+        try {
+            await axiosSecure.delete(`/riders/${riderId}`);
+
+            await Swal.fire({
+                title: "Deleted!",
+                text: "The rider application has been removed.",
+                icon: "success",
+                timer: 1800,
+                showConfirmButton: false
+            });
+
+            queryClient.invalidateQueries(['pendingRiders']);
         } catch (error) {
-            console.error('Error rejecting rider:', error);
+            Swal.fire({
+                title: "Error",
+                text: "Failed to delete rider. Try again.",
+                icon: "error"
+            });
         }
     };
+
 
     // Filter and search riders
     const filteredRiders = pendingRiders.filter(rider => {
@@ -133,37 +172,6 @@ const PendingRiders = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 md:p-6">
-            {/* Success/Error Modals */}
-            {showApprovedModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-                    <div className="absolute inset-0 bg-black bg-opacity-25 backdrop-blur-sm"></div>
-                    <div className="relative bg-white rounded-2xl shadow-2xl p-8 max-w-md transform transition-all scale-100 animate-fadeIn">
-                        <div className="text-center">
-                            <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
-                                <CheckCircle className="h-10 w-10 text-green-600" />
-                            </div>
-                            <h3 className="text-2xl font-bold text-gray-900 mb-2">Rider Approved!</h3>
-                            <p className="text-gray-600">The rider has been approved successfully.</p>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {showRejectedModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-                    <div className="absolute inset-0 bg-black bg-opacity-25 backdrop-blur-sm"></div>
-                    <div className="relative bg-white rounded-2xl shadow-2xl p-8 max-w-md transform transition-all scale-100 animate-fadeIn">
-                        <div className="text-center">
-                            <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-4">
-                                <XCircle className="h-10 w-10 text-red-600" />
-                            </div>
-                            <h3 className="text-2xl font-bold text-gray-900 mb-2">Rider Rejected</h3>
-                            <p className="text-gray-600">The rider application has been rejected.</p>
-                        </div>
-                    </div>
-                </div>
-            )}
-
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="mb-8">
