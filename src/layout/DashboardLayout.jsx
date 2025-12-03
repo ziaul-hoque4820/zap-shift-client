@@ -77,6 +77,12 @@ const DashboardLayout = () => {
                             Update Profile
                         </NavLink>
                     </li>
+                    <li>
+                        <NavLink to="/dashboard//pendingRiders">
+                            <FaUserEdit className="inline-block mr-2" />
+                            Pending Ridwers
+                        </NavLink>
+                    </li>
                 </ul>
             </div>
         </div>

@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 
 function RiderForm() {
     const { user } = useAuth();
+    console.log(user);
+    
     const axiosSecure = useAxiosSecure();
 
     const {
@@ -80,8 +82,9 @@ function RiderForm() {
                 ...data,
                 userId: user?.uid, 
                 userEmail: user?.email,
+                userPhoto: user?.photoURL || null,
                 status: "pending", 
-                appliedAt: new Date().toISOString(),
+                appliedAt: Date.now(),
                 // Convert areasToRide to array if it's not already
                 areasToRide: Array.isArray(data.areasToRide) ? data.areasToRide : [data.areasToRide].filter(Boolean)
             };

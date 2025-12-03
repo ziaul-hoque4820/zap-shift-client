@@ -21,6 +21,7 @@ import DashBoard from "../pages/deshboard/DashBoard";
 import Payment from "../pages/deshboard/payment/Payment";
 import PaymentHistory from "../pages/deshboard/payment-history/PaymentHistory";
 import TrackParcel from "../pages/deshboard/track-parcel/TrackParcel";
+import PendingRiders from "../pages/deshboard/pending-riders/PendingRiders";
 
 const router = createBrowserRouter([
     {
@@ -114,6 +115,10 @@ const router = createBrowserRouter([
             {
                 path: 'track',
                 Component: TrackParcel
+            },
+            {
+                path: 'pendingRiders',
+                Component: PendingRiders
             }
         ]
     }
