@@ -1,12 +1,14 @@
 import React, { useState, useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 function ApprovedRiders() {
     const axiosSecure = useAxiosSecure();
     const [search, setSearch] = useState("");
     const [vehicleFilter, setVehicleFilter] = useState("");
     const [areaFilter, setAreaFilter] = useState("");
+    const queryClient = useQueryClient();
 
     const { data: riders = [], isLoading } = useQuery({
         queryKey: ["approvedRiders"],
@@ -26,6 +28,46 @@ function ApprovedRiders() {
             return matchesSearch && matchesVehicle && matchesArea;
         });
     }, [search, vehicleFilter, areaFilter, riders]);
+
+
+    const handleDeactivate = async (riderId) => {
+        console.log(riderId);
+        
+        const confirm = await Swal.fire({
+            title: "Deactivate Rider?",
+            text: "Are you sure you want to deactivate this rider?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, deactivate",
+        });
+
+        if (!confirm.isConfirmed) return;
+
+        try {
+            await axiosSecure.patch(`/riders/${riderId}/deactivate`);
+
+            await Swal.fire({
+                title: "Deactivated!",
+                text: "The rider has been deactivated successfully.",
+                icon: "success",
+                timer: 1800,
+                showConfirmButton: false
+            });
+
+            // Refresh approved rider list
+            queryClient.invalidateQueries({ queryKey: ["approvedRiders"] });
+
+        } catch (error) {
+            Swal.fire({
+                title: "Error",
+                text: "Failed to deactivate rider. Try again.",
+                icon: "error",
+            });
+        }
+    };
+
 
     if (isLoading)
         return <p className="text-center py-10 text-gray-500">Loading approved riders...</p>;
@@ -140,6 +182,7 @@ function ApprovedRiders() {
                                 )}
                             </div>
                         </div>
+                        <button onClick={() => handleDeactivate(rider._id)} className="w-full py-3 bg-[#CAEB66] mt-5 rounded-xl hover:bg-[#b7da4e] font-semibold cursor-pointer">Rider Deactivate</button>
                     </div>
                 ))}
             </div>

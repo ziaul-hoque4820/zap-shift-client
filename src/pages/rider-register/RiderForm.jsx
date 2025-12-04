@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 
 function RiderForm() {
     const { user } = useAuth();
-    console.log(user);
     
     const axiosSecure = useAxiosSecure();
 
@@ -18,7 +17,7 @@ function RiderForm() {
         watch,
         setValue,
         reset,
-        formState: { errors, isSubmitting }
+        formState: { errors }
     } = useForm({
         defaultValues: {
             name: user?.displayName || "",
