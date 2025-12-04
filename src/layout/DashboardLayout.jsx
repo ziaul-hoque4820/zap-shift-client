@@ -78,9 +78,15 @@ const DashboardLayout = () => {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/dashboard//pendingRiders">
+                        <NavLink to="/dashboard/pendingRiders">
                             <FaUserEdit className="inline-block mr-2" />
                             Pending Ridwers
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/dashboard/approveRider">
+                            <FaUserEdit className="inline-block mr-2" />
+                            Approve Riders
                         </NavLink>
                     </li>
                 </ul>

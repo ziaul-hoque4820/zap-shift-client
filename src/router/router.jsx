@@ -22,6 +22,7 @@ import Payment from "../pages/deshboard/payment/Payment";
 import PaymentHistory from "../pages/deshboard/payment-history/PaymentHistory";
 import TrackParcel from "../pages/deshboard/track-parcel/TrackParcel";
 import PendingRiders from "../pages/deshboard/pending-riders/PendingRiders";
+import ApprovedRiders from "../pages/deshboard/approved-riders/ApprovedRiders";
 
 const router = createBrowserRouter([
     {
@@ -119,6 +120,10 @@ const router = createBrowserRouter([
             {
                 path: 'pendingRiders',
                 Component: PendingRiders
+            },
+            {
+                path: 'approveRider',
+                Component: ApprovedRiders
             }
         ]
     }
