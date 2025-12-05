@@ -89,6 +89,12 @@ const DashboardLayout = () => {
                             Approve Riders
                         </NavLink>
                     </li>
+                    <li>
+                        <NavLink to="/dashboard/deactiveRiders">
+                            <FaUserEdit className="inline-block mr-2" />
+                            Deactivated Riders
+                        </NavLink>
+                    </li>
                 </ul>
             </div>
         </div>

@@ -31,7 +31,6 @@ function ApprovedRiders() {
 
 
     const handleDeactivate = async (riderId) => {
-        console.log(riderId);
         
         const confirm = await Swal.fire({
             title: "Deactivate Rider?",
