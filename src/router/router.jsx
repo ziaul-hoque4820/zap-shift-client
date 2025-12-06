@@ -24,6 +24,7 @@ import TrackParcel from "../pages/deshboard/track-parcel/TrackParcel";
 import PendingRiders from "../pages/deshboard/pending-riders/PendingRiders";
 import ApprovedRiders from "../pages/deshboard/approved-riders/ApprovedRiders";
 import DeactivatedRiders from "../pages/deshboard/deactive-riders/DeactivatedRiders";
+import MakeAdmin from "../pages/deshboard/make-admin/MakeAdmin";
 
 const router = createBrowserRouter([
     {
@@ -129,6 +130,10 @@ const router = createBrowserRouter([
             {
                 path: 'deactiveRiders',
                 Component: DeactivatedRiders
+            },
+            {
+                path: 'makeAdmin',
+                Component: MakeAdmin
             }
         ]
     }

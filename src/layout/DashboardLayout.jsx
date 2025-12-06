@@ -2,8 +2,12 @@ import React from 'react';
 import { NavLink, Outlet } from 'react-router';
 import { FaHome, FaBoxOpen, FaMoneyCheckAlt, FaUserEdit, FaSearchLocation } from 'react-icons/fa';
 import Logo from '../assets/logo.png';
+import useUserRole from '../hooks/useUserRole';
 
 const DashboardLayout = () => {
+
+    const { role, roleLoading } = useUserRole();
+
 
     return (
         <div className="drawer lg:drawer-open">
@@ -77,24 +81,34 @@ const DashboardLayout = () => {
                             Update Profile
                         </NavLink>
                     </li>
-                    <li>
-                        <NavLink to="/dashboard/pendingRiders">
-                            <FaUserEdit className="inline-block mr-2" />
-                            Pending Ridwers
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/dashboard/approveRider">
-                            <FaUserEdit className="inline-block mr-2" />
-                            Approve Riders
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/dashboard/deactiveRiders">
-                            <FaUserEdit className="inline-block mr-2" />
-                            Deactivated Riders
-                        </NavLink>
-                    </li>
+                    {!roleLoading && role === 'admin' &&
+                        <>
+                            <li>
+                                <NavLink to="/dashboard/pendingRiders">
+                                    <FaUserEdit className="inline-block mr-2" />
+                                    Pending Riders
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/dashboard/approveRider">
+                                    <FaUserEdit className="inline-block mr-2" />
+                                    Approve Riders
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/dashboard/deactiveRiders">
+                                    <FaUserEdit className="inline-block mr-2" />
+                                    Deactivated Riders
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/dashboard/makeAdmin">
+                                    <FaUserEdit className="inline-block mr-2" />
+                                    Make Admin
+                                </NavLink>
+                            </li>
+                        </>
+                    }
                 </ul>
             </div>
         </div>
