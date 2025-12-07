@@ -25,6 +25,7 @@ import PendingRiders from "../pages/deshboard/pending-riders/PendingRiders";
 import ApprovedRiders from "../pages/deshboard/approved-riders/ApprovedRiders";
 import DeactivatedRiders from "../pages/deshboard/deactive-riders/DeactivatedRiders";
 import MakeAdmin from "../pages/deshboard/make-admin/MakeAdmin";
+import AdminRoute from "../routes/AdminRoute";
 
 const router = createBrowserRouter([
     {
@@ -121,19 +122,19 @@ const router = createBrowserRouter([
             },
             {
                 path: 'pendingRiders',
-                Component: PendingRiders
+                element: <AdminRoute><PendingRiders></PendingRiders></AdminRoute>
             },
             {
                 path: 'approveRider',
-                Component: ApprovedRiders
+                element: <AdminRoute><ApprovedRiders></ApprovedRiders></AdminRoute>
             },
             {
                 path: 'deactiveRiders',
-                Component: DeactivatedRiders
+                element: <AdminRoute><DeactivatedRiders></DeactivatedRiders></AdminRoute>
             },
             {
                 path: 'makeAdmin',
-                Component: MakeAdmin
+                element: <AdminRoute><MakeAdmin></MakeAdmin></AdminRoute>
             }
         ]
     }
