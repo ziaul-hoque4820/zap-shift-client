@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, Outlet } from 'react-router';
-import { FaHome, FaBoxOpen, FaMoneyCheckAlt, FaUserEdit, FaSearchLocation } from 'react-icons/fa';
+import { FaHome, FaBoxOpen, FaMoneyCheckAlt, FaUserEdit, FaSearchLocation, FaMotorcycle } from 'react-icons/fa';
 import Logo from '../assets/logo.png';
 import useUserRole from '../hooks/useUserRole';
 
@@ -83,6 +83,12 @@ const DashboardLayout = () => {
                     </li>
                     {!roleLoading && role === 'admin' &&
                         <>
+                            <li>
+                                <NavLink to="/dashboard/assignRider">
+                                    <FaMotorcycle className="inline-block mr-2" />
+                                    Assign Rider
+                                </NavLink>
+                            </li>
                             <li>
                                 <NavLink to="/dashboard/pendingRiders">
                                     <FaUserEdit className="inline-block mr-2" />

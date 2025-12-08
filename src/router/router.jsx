@@ -26,6 +26,7 @@ import ApprovedRiders from "../pages/deshboard/approved-riders/ApprovedRiders";
 import DeactivatedRiders from "../pages/deshboard/deactive-riders/DeactivatedRiders";
 import MakeAdmin from "../pages/deshboard/make-admin/MakeAdmin";
 import AdminRoute from "../routes/AdminRoute";
+import AssignRider from "../pages/deshboard/assign-rider/AssignRider";
 
 const router = createBrowserRouter([
     {
@@ -119,6 +120,10 @@ const router = createBrowserRouter([
             {
                 path: 'track',
                 Component: TrackParcel
+            },
+            {
+                path: 'assignRider',
+                element: <AdminRoute><AssignRider></AssignRider></AdminRoute>
             },
             {
                 path: 'pendingRiders',
