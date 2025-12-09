@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, Outlet } from 'react-router';
-import { FaHome, FaBoxOpen, FaMoneyCheckAlt, FaUserEdit, FaSearchLocation, FaMotorcycle } from 'react-icons/fa';
+import { FaHome, FaBoxOpen, FaMoneyCheckAlt, FaUserEdit, FaSearchLocation, FaMotorcycle, FaClock, FaUserCheck, FaUserSlash, FaUserShield } from 'react-icons/fa';
 import Logo from '../assets/logo.png';
 import useUserRole from '../hooks/useUserRole';
 
@@ -52,64 +52,64 @@ const DashboardLayout = () => {
                     </NavLink>
                     {/* Sidebar content here */}
                     <li>
-                        <NavLink to="/dashboard">
-                            <FaHome className="inline-block mr-2" />
+                        <NavLink to="/dashboard" className="text-[18px] font-heading font-medium text-heading">
+                            <FaHome className="inline-block mr-2 text-2xl" />
                             Home
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/dashboard/myParcels">
-                            <FaBoxOpen className="inline-block mr-2" />
+                        <NavLink to="/dashboard/myParcels" className="text-[18px] font-heading font-medium text-heading">
+                            <FaBoxOpen className="inline-block mr-2 text-2xl" />
                             My Parcels
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/dashboard/paymentHistory">
-                            <FaMoneyCheckAlt className="inline-block mr-2" />
+                        <NavLink to="/dashboard/paymentHistory" className="text-[18px] font-heading font-medium text-heading">
+                            <FaMoneyCheckAlt className="inline-block mr-2 text-2xl" />
                             Payment History
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/dashboard">
-                            <FaSearchLocation className="inline-block mr-2" />
+                        <NavLink to="/dashboard" className="text-[18px] font-heading font-medium text-heading">
+                            <FaSearchLocation className="inline-block mr-2 text-2xl" />
                             Track a Package
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/dashboard">
-                            <FaUserEdit className="inline-block mr-2" />
+                        <NavLink to="/dashboard" className="text-[18px] font-heading font-medium text-heading">
+                            <FaUserEdit className="inline-block mr-2 text-2xl" />
                             Update Profile
                         </NavLink>
                     </li>
                     {!roleLoading && role === 'admin' &&
                         <>
                             <li>
-                                <NavLink to="/dashboard/assignRider">
-                                    <FaMotorcycle className="inline-block mr-2" />
+                                <NavLink to="/dashboard/assignRider" className="text-[18px] font-heading font-medium text-heading">
+                                    <FaMotorcycle className="inline-block mr-2 text-2xl" />
                                     Assign Rider
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink to="/dashboard/pendingRiders">
-                                    <FaUserEdit className="inline-block mr-2" />
+                                <NavLink to="/dashboard/pendingRiders" className="text-[18px] font-heading font-medium text-heading">
+                                    <FaClock className="inline-block mr-2 text-2xl" />
                                     Pending Riders
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink to="/dashboard/approveRider">
-                                    <FaUserEdit className="inline-block mr-2" />
+                                <NavLink to="/dashboard/approveRider" className="text-[18px] font-heading font-medium text-heading">
+                                    <FaUserCheck className="inline-block mr-2 text-2xl" />
                                     Approve Riders
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink to="/dashboard/deactiveRiders">
-                                    <FaUserEdit className="inline-block mr-2" />
+                                <NavLink to="/dashboard/deactiveRiders" className="text-[18px] font-heading font-medium text-heading">
+                                    <FaUserSlash className="inline-block mr-2 text-2xl" />
                                     Deactivated Riders
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink to="/dashboard/makeAdmin">
-                                    <FaUserEdit className="inline-block mr-2" />
+                                <NavLink to="/dashboard/makeAdmin" className="text-[18px] font-heading font-medium text-heading">
+                                    <FaUserShield className="inline-block mr-2 text-2xl" />
                                     Make Admin
                                 </NavLink>
                             </li>
