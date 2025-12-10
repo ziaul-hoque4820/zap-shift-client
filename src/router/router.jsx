@@ -27,6 +27,8 @@ import DeactivatedRiders from "../pages/deshboard/deactive-riders/DeactivatedRid
 import MakeAdmin from "../pages/deshboard/make-admin/MakeAdmin";
 import AdminRoute from "../routes/AdminRoute";
 import AssignRider from "../pages/deshboard/assign-rider/AssignRider";
+import RiderRoute from "../routes/RiderRoute";
+import PendingDelivery from "../pages/deshboard/pending-delivery/PendingDelivery";
 
 const router = createBrowserRouter([
     {
@@ -121,6 +123,12 @@ const router = createBrowserRouter([
                 path: 'track',
                 Component: TrackParcel
             },
+            // Rider Routes
+            {
+                path: 'pendingDeliveries',
+                element: <RiderRoute><PendingDelivery></PendingDelivery></RiderRoute>
+            },
+            // Admin Routes
             {
                 path: 'assignRider',
                 element: <AdminRoute><AssignRider></AssignRider></AdminRoute>
