@@ -28,7 +28,7 @@ import MakeAdmin from "../pages/deshboard/make-admin/MakeAdmin";
 import AdminRoute from "../routes/AdminRoute";
 import AssignRider from "../pages/deshboard/assign-rider/AssignRider";
 import RiderRoute from "../routes/RiderRoute";
-import PendingDelivery from "../pages/deshboard/pending-delivery/PendingDelivery";
+import PendingDeliverys from "../pages/deshboard/pending-delivery/PendingDeliverys";
 
 const router = createBrowserRouter([
     {
@@ -126,7 +126,7 @@ const router = createBrowserRouter([
             // Rider Routes
             {
                 path: 'pendingDeliveries',
-                element: <RiderRoute><PendingDelivery></PendingDelivery></RiderRoute>
+                element: <RiderRoute><PendingDeliverys></PendingDeliverys></RiderRoute>
             },
             // Admin Routes
             {
