@@ -1,25 +1,83 @@
 import React from 'react'
 import useAxiosSecure from '../../../hooks/useAxiosSecure'
 import useAuth from '../../../hooks/useAuth';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import LoaderSpin from '../../share/LoaderSpin';
+import Swal from 'sweetalert2';
 
 function PendingDeliverys() {
     const axiosSecure = useAxiosSecure();
     const { user } = useAuth();
+    const queryClient = useQueryClient();
 
+    // Get parcels assigned to rider
     const { data: parcels = [], isLoading } = useQuery({
         queryKey: ['riderParcels'],
         enabled: !!user.email,
         queryFn: async () => {
-            const res = await axiosSecure.get(`/rider/parcels?email=${user.email}`)
+            const res = await axiosSecure.get(`/rider/parcels?email=${user.email}`);
             return res.data;
         }
     });
 
-    const handleStatusUpdate = () => {
+    // --- Pick Up Mutation ---
+    const { mutateAsync: markPickedUp } = useMutation({
+        mutationFn: async ({ parcelId }) => {
+            const res = await axiosSecure.patch(`/parcels/${parcelId}/pickup`, {
+                riderEmail: user.email,
+            });
+            return res.data;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries(["riderParcels"]);
+        },
+    });
 
-    }
+    // --- Deliver Mutation (NEW) ---
+    const { mutateAsync: markDelivered } = useMutation({
+        mutationFn: async ({ parcelId }) => {
+            const res = await axiosSecure.patch(`/parcels/${parcelId}/deliver`, {
+                riderEmail: user.email,
+            });
+            return res.data;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries(["riderParcels"]);
+        },
+    });
+
+    // Handle Button Clicks
+    const handlePickup = (parcelId) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Mark this parcel as Picked Up?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Yes"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                markPickedUp({ parcelId })
+                    .then(() => Swal.fire("Success", "Parcel Picked Up!", "success"))
+                    .catch(() => Swal.fire("Error", "Failed to update.", "error"));
+            }
+        });
+    };
+
+    const handleDelivered = (parcelId) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Mark this parcel as Delivered?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Yes"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                markDelivered({ parcelId })
+                    .then(() => Swal.fire("Success", "Parcel Delivered!", "success"))
+                    .catch(() => Swal.fire("Error", "Failed to update.", "error"));
+            }
+        });
+    };
 
     return (
         <div className="p-6">
@@ -61,10 +119,8 @@ function PendingDeliverys() {
                                     <td>
                                         {parcel.delivery_status === "rider_assigned" && (
                                             <button
-                                                className="px-4 py-3 bg-lime-300 rounded-xl text-black"
-                                                onClick={() =>
-                                                    handleStatusUpdate(parcel, "in_transit")
-                                                }
+                                                className="px-4 py-3 bg-lime-300 rounded-xl text-black cursor-pointer"
+                                                onClick={() => handlePickup(parcel._id)}
                                             >
                                                 Mark Picked Up
                                             </button>
@@ -72,10 +128,8 @@ function PendingDeliverys() {
 
                                         {parcel.delivery_status === "in_transit" && (
                                             <button
-                                                className="px-4 py-3 rounded-xl bg-green-300 text-black"
-                                                onClick={() =>
-                                                    handleStatusUpdate(parcel, "delivered")
-                                                }
+                                                className="px-4 py-3 rounded-xl bg-green-300 text-black cursor-pointer"
+                                                onClick={() => handleDelivered(parcel._id)}
                                             >
                                                 Mark Delivered
                                             </button>
@@ -91,4 +145,4 @@ function PendingDeliverys() {
     )
 }
 
-export default PendingDeliverys
+export default PendingDeliverys;
