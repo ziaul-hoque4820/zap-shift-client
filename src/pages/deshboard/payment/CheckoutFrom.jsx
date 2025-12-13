@@ -5,6 +5,7 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import Swal from "sweetalert2";
 import useAuth from '../../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import useTrackingLogger from '../../../hooks/useTrackingLogger';
 
 function CheckoutFrom({ parcelId }) {
     const stripe = useStripe();
@@ -12,9 +13,10 @@ function CheckoutFrom({ parcelId }) {
     const [error, setError] = useState('');
     const [processing, setProcessing] = useState(false);
     const axiosSecure = useAxiosSecure();
+    const { logTracking } = useTrackingLogger();
     const { user } = useAuth();
     const navigate = useNavigate();
-    
+
 
     const { isPending, data: parcelInfo = {} } = useQuery({
         queryKey: ['parcels', parcelId],
@@ -106,6 +108,15 @@ function CheckoutFrom({ parcelId }) {
                     icon: "success",
                     confirmButtonColor: "#84cc16",
                 });
+
+                // log tracking info
+                await logTracking({
+                    tracking_id: parcelInfo.tracking_id,
+                    status: "Payment Completed",
+                    details: `Payment of ${amount} Tk completed.`,
+                    location: parcelInfo.receiverDistrict,
+                    updated_by: user.email,
+                })
 
                 // redirect to /myparcels
                 navigate('/dashboard/myParcels')

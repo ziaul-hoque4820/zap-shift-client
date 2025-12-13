@@ -1,17 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
+import useTrackingLogger from "../../../hooks/useTrackingLogger";
+import useAuth from "../../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 function AssignRider() {
     const axiosSecure = useAxiosSecure();
     const queryClient = useQueryClient();
+    const { logTracking } = useTrackingLogger();
+    const { user } = useAuth();
 
     const [selectedParcel, setSelectedParcel] = useState(null);
     const [selectedRider, setSelectedRider] = useState(null);
 
-    // Load parcels: paid + not collected
+    /* ------------------ Load Parcels ------------------ */
     const { data: parcels = [], isLoading: parcelLoading } = useQuery({
         queryKey: ["admin-parcels"],
         queryFn: async () => {
@@ -22,12 +27,8 @@ function AssignRider() {
         },
     });
 
-    // Fetch riders dynamically based on selected parcel area
-    const {
-        data: riderData,
-        isLoading: ridersLoading,
-        refetch: loadRiders,
-    } = useQuery({
+    /* ------------------ Load Riders ------------------ */
+    const { data: riderData, isLoading: ridersLoading } = useQuery({
         queryKey: ["available-riders", selectedParcel?.senderAreaOrCity],
         queryFn: async () => {
             const res = await axiosSecure.get(
@@ -35,26 +36,47 @@ function AssignRider() {
             );
             return res.data;
         },
-        enabled: !!selectedParcel, // Only fetch when modal opens
+        enabled: !!selectedParcel,
     });
 
     const riders = riderData?.riders || [];
 
-    // Assign Rider Mutation
+    /* ------------------ Selected Rider Object ------------------ */
+    const selectedRiderData = riders.find(
+        (rider) => rider._id === selectedRider
+    );
+
+
+    /* ------------------ Assign Rider Mutation ------------------ */
     const assignMutation = useMutation({
         mutationFn: async () => {
-            return await axiosSecure.patch(
+            return axiosSecure.patch(
                 `/parcels/${selectedParcel._id}/assign-rider`,
                 { riderId: selectedRider }
             );
         },
-        onSuccess: () => {
+        onSuccess: async () => {
+            // ✅ rider info safe copy
+            const rider = selectedRiderData;
+            console.log(rider);
+            
+
+            // ✅ log tracking FIRST
+            await logTracking({
+                tracking_id: selectedParcel.tracking_id,
+                status: "Rider Assigned",
+                details: `Assigned to ${rider.name}`,
+                location: selectedParcel.receiverDistrict,
+                rider_contact: rider.phone,
+                updated_by: user.email,
+            });
+
             toast.success("Rider assigned successfully!");
 
+            // ✅ reset state AFTER all async work
             setSelectedParcel(null);
             setSelectedRider(null);
 
-            // Refresh parcel list
             queryClient.invalidateQueries(["admin-parcels"]);
         },
         onError: () => {
@@ -62,22 +84,29 @@ function AssignRider() {
         },
     });
 
+    /* ------------------ Confirm Assign ------------------ */
+    const handleAssignConfirm = async () => {
+        if (!selectedRiderData) return;
 
-    // Open Modal
-    const openModal = (parcel) => {
-        setSelectedParcel(parcel);
-        setSelectedRider(null);
-        loadRiders();
+        const result = await Swal.fire({
+            title: "Assign Rider?",
+            html: `
+                <p><strong>Rider:</strong> ${selectedRiderData.name}</p>
+                <p><strong>Phone:</strong> ${selectedRiderData.phone}</p>
+            `,
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#0A3D3F",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Assign",
+        });
+
+        if (result.isConfirmed) {
+            assignMutation.mutate();
+        }
     };
 
-    // Close Modal
-    const closeModal = () => {
-        setSelectedParcel(null);
-        setSelectedRider(null);
-    };
-
-
-    // UI Rendering
+    /* ------------------ UI ------------------ */
     return (
         <div className="p-6">
             <h1 className="text-3xl font-bold text-gray-800 mb-2">
@@ -87,52 +116,38 @@ function AssignRider() {
                 Manage all paid and not-collected parcels and assign riders.
             </p>
 
-            {/* Loading */}
             {parcelLoading && (
                 <div className="flex justify-center py-20">
                     <Loader2 className="w-10 h-10 animate-spin text-gray-700" />
                 </div>
             )}
 
-            {/* Parcel Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {parcels.map((parcel) => (
                     <div
                         key={parcel._id}
-                        className="bg-white shadow-md rounded-xl p-5 border border-gray-100 hover:shadow-lg transition"
+                        className="bg-white shadow-md rounded-xl p-5 border hover:shadow-lg transition"
                     >
-                        <h2 className="text-xl font-semibold mb-1 text-gray-800">
+                        <h2 className="text-xl font-semibold text-gray-800">
                             {parcel.parcelName}
                         </h2>
                         <p className="text-sm text-gray-500">
                             Tracking: {parcel.tracking_id}
                         </p>
-                        <p className="text-sm text-gray-500">
-                            Type: {parcel.parcelType}
-                        </p>
 
                         <div className="mt-4 space-y-2 text-sm">
-                            <p>
-                                <span className="font-medium">Sender:</span>{" "}
-                                {parcel.senderName}
-                            </p>
-                            <p>
-                                <span className="font-medium">Receiver:</span>{" "}
-                                {parcel.receiverName}
-                            </p>
-                            <p>
-                                <span className="font-medium">From:</span>{" "}
-                                {parcel.senderAreaOrCity}
-                            </p>
-                            <p>
-                                <span className="font-medium">To:</span>{" "}
-                                {parcel.receiverAreaOrCity}
-                            </p>
+                            <p><b>Sender:</b> {parcel.senderName}</p>
+                            <p><b>Receiver:</b> {parcel.receiverName}</p>
+                            <p><b>From:</b> {parcel.senderAreaOrCity}</p>
+                            <p><b>To:</b> {parcel.receiverAreaOrCity}</p>
                         </div>
 
                         <button
-                            onClick={() => openModal(parcel)}
-                            className="w-full mt-5 bg-[#0A3D3F] text-white py-2 rounded-lg hover:bg-[#062f30] transition"
+                            onClick={() => {
+                                setSelectedParcel(parcel);
+                                setSelectedRider(null);
+                            }}
+                            className="w-full mt-5 bg-[#0A3D3F] text-white py-2 rounded-lg hover:bg-[#062f30]"
                         >
                             Assign Rider
                         </button>
@@ -140,26 +155,17 @@ function AssignRider() {
                 ))}
             </div>
 
-
-                {/* ASSIGN RIDER MODAL  */}
+            {/* ------------------ MODAL ------------------ */}
             {selectedParcel && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-                    <div className="bg-white w-full max-w-md rounded-xl shadow-lg p-6 relative">
+                    <div className="bg-white w-full max-w-md rounded-xl p-6">
 
                         <h2 className="text-xl font-bold mb-4">
                             Assign Rider to: {selectedParcel.parcelName}
                         </h2>
 
-                        {/* Riders Loading */}
-                        {ridersLoading && (
-                            <div className="flex justify-center py-10">
-                                <Loader2 className="w-8 h-8 animate-spin text-gray-700" />
-                            </div>
-                        )}
-
-                        {/* Riders List */}
                         {!ridersLoading && (
-                            <div className="max-h-72 overflow-y-auto space-y-3 pr-1">
+                            <div className="max-h-72 overflow-y-auto space-y-3">
                                 {riders.length === 0 && (
                                     <p className="text-gray-500 text-sm text-center">
                                         No riders available in this area.
@@ -169,21 +175,14 @@ function AssignRider() {
                                 {riders.map((rider) => (
                                     <div
                                         key={rider._id}
-                                        onClick={() =>
-                                            setSelectedRider(rider._id)
-                                        }
-                                        className={`border rounded-lg p-3 cursor-pointer transition 
+                                        onClick={() => setSelectedRider(rider._id)}
+                                        className={`border rounded-lg p-3 cursor-pointer
                                             ${selectedRider === rider._id
                                                 ? "bg-[#0A3D3F] text-white"
-                                                : "hover:bg-gray-100"
-                                            }`}
+                                                : "hover:bg-gray-100"}`}
                                     >
-                                        <p className="font-semibold">
-                                            {rider.name}
-                                        </p>
-                                        <p className="text-sm">
-                                            Phone: {rider.phone}
-                                        </p>
+                                        <p className="font-semibold">{rider.name}</p>
+                                        <p className="text-sm">Phone: {rider.phone}</p>
                                         <p className="text-sm">
                                             Areas: {rider.areas.join(", ")}
                                         </p>
@@ -192,25 +191,20 @@ function AssignRider() {
                             </div>
                         )}
 
-                        {/* Buttons */}
                         <div className="mt-6 flex justify-end gap-3">
                             <button
-                                onClick={closeModal}
-                                className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300"
+                                onClick={() => setSelectedParcel(null)}
+                                className="px-4 py-2 bg-gray-200 rounded-lg"
                             >
                                 Cancel
                             </button>
 
                             <button
                                 disabled={!selectedRider || assignMutation.isLoading}
-                                onClick={() => assignMutation.mutate()}
-                                className="px-4 py-2 bg-[#0A3D3F] text-white rounded-lg disabled:opacity-50 hover:bg-[#062f30]"
+                                onClick={handleAssignConfirm}
+                                className="px-4 py-2 bg-[#0A3D3F] text-white rounded-lg disabled:opacity-50"
                             >
-                                {assignMutation.isLoading ? (
-                                    <Loader2 className="w-5 h-5 animate-spin mx-auto" />
-                                ) : (
-                                    "Assign Rider"
-                                )}
+                                Assign Rider
                             </button>
                         </div>
                     </div>

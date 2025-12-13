@@ -5,7 +5,8 @@ import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import calculateCost from "./calculateCost";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import useTrackingLogger from "../../hooks/useTrackingLogger";
 
 const generateTrackingID = () => {
     const date = new Date();
@@ -19,8 +20,13 @@ const ParcelBookingForm = () => {
         defaultValues: { parcelType: "Document" },
     });
 
+    const navigate = useNavigate();
+    const from = '/dashboard/myParcels';
+
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
+
+    const { logTracking } = useTrackingLogger();
 
     const senderDistrict = watch("senderDistrict");
     const receiverDistrict = watch("receiverDistrict");
@@ -115,6 +121,17 @@ const ParcelBookingForm = () => {
                             showConfirmButton: false,
                         });
                     }
+
+                    // Log initial tracking info
+                    await logTracking({
+                        tracking_id,
+                        status: "Parcel Created",
+                        details: `Parcel created by ${user.displayName}, pending pickup.`,
+                        location: data.senderDistrict,
+                        updated_by: user.email,
+                    })
+
+                    navigate(from, { replace: true });
                     reset();
                 });
             }
