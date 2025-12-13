@@ -30,6 +30,7 @@ import AssignRider from "../pages/deshboard/assign-rider/AssignRider";
 import RiderRoute from "../routes/RiderRoute";
 import PendingDeliverys from "../pages/deshboard/pending-delivery/PendingDeliverys";
 import CompletedDeliveries from "../pages/deshboard/completed-deliveries/CompletedDeliveries";
+import MyEarning from "../pages/deshboard/my-earning/MyEarning";
 
 const router = createBrowserRouter([
     {
@@ -132,6 +133,10 @@ const router = createBrowserRouter([
             {
                 path: 'completedDeliveries',
                 element: <RiderRoute><CompletedDeliveries></CompletedDeliveries></RiderRoute>
+            },
+            {
+                path: 'myEarnings',
+                element: <RiderRoute><MyEarning></MyEarning></RiderRoute>
             },
             // Admin Routes
             {

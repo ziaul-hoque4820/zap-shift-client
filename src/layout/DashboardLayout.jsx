@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, Outlet } from 'react-router';
-import { FaHome, FaBoxOpen, FaMoneyCheckAlt, FaUserEdit, FaSearchLocation, FaMotorcycle, FaClock, FaUserCheck, FaUserSlash, FaUserShield, FaTasks, FaCheckCircle } from 'react-icons/fa';
+import { FaHome, FaBoxOpen, FaMoneyCheckAlt, FaUserEdit, FaSearchLocation, FaMotorcycle, FaClock, FaUserCheck, FaUserSlash, FaUserShield, FaTasks, FaCheckCircle, FaWallet } from 'react-icons/fa';
 import Logo from '../assets/logo.png';
 import useUserRole from '../hooks/useUserRole';
 
@@ -94,6 +94,12 @@ const DashboardLayout = () => {
                             <NavLink to="/dashboard/completedDeliveries" className="text-[18px] font-heading font-medium text-heading">
                                 <FaCheckCircle className="inline-block mr-2 text-2xl" />
                                 Completed Deliveries
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/dashboard/myEarnings" className="text-[18px] font-heading font-medium text-heading">
+                                <FaWallet className="inline-block mr-2 text-2xl" />
+                                My Earnings
                             </NavLink>
                         </li>
                     </>}
