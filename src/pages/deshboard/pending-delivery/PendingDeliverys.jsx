@@ -4,11 +4,14 @@ import useAuth from '../../../hooks/useAuth';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import LoaderSpin from '../../share/LoaderSpin';
 import Swal from 'sweetalert2';
+import useTrackingLogger from '../../../hooks/useTrackingLogger';
 
 function PendingDeliverys() {
     const axiosSecure = useAxiosSecure();
     const { user } = useAuth();
     const queryClient = useQueryClient();
+    const { logTracking } = useTrackingLogger();
+
 
     // Get parcels assigned to rider
     const { data: parcels = [], isLoading } = useQuery({
@@ -47,37 +50,65 @@ function PendingDeliverys() {
     });
 
     // Handle Button Clicks
-    const handlePickup = (parcelId) => {
+    const handlePickup = (parcel) => {
         Swal.fire({
             title: "Are you sure?",
             text: "Mark this parcel as Picked Up?",
             icon: "question",
             showCancelButton: true,
-            confirmButtonText: "Yes"
-        }).then((result) => {
+            confirmButtonText: "Yes",
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                markPickedUp({ parcelId })
-                    .then(() => Swal.fire("Success", "Parcel Picked Up!", "success"))
-                    .catch(() => Swal.fire("Error", "Failed to update.", "error"));
+                try {
+                    await markPickedUp({ parcelId: parcel._id });
+
+                    // ✅ TRACKING LOG
+                    await logTracking({
+                        tracking_id: parcel.tracking_id,
+                        status: "Picked Up",
+                        details: `Parcel picked up by ${user.displayName}`,
+                        location: parcel.senderAreaOrCity,
+                        updated_by: user.email,
+                    });
+
+                    Swal.fire("Success", "Parcel Picked Up!", "success");
+                } catch {
+                    Swal.fire("Error", "Failed to update.", "error");
+                }
             }
         });
     };
 
-    const handleDelivered = (parcelId) => {
+
+    const handleDelivered = (parcel) => {
         Swal.fire({
             title: "Are you sure?",
             text: "Mark this parcel as Delivered?",
             icon: "question",
             showCancelButton: true,
-            confirmButtonText: "Yes"
-        }).then((result) => {
+            confirmButtonText: "Yes",
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                markDelivered({ parcelId })
-                    .then(() => Swal.fire("Success", "Parcel Delivered!", "success"))
-                    .catch(() => Swal.fire("Error", "Failed to update.", "error"));
+                try {
+                    await markDelivered({ parcelId: parcel._id });
+
+                    // ✅ TRACKING LOG
+                    await logTracking({
+                        tracking_id: parcel.tracking_id,
+                        status: "Delivered",
+                        details: "Parcel successfully delivered to receiver",
+                        location: parcel.receiverAreaOrCity,
+                        updated_by: user.email,
+                    });
+
+                    Swal.fire("Success", "Parcel Delivered!", "success");
+                } catch {
+                    Swal.fire("Error", "Failed to update.", "error");
+                }
             }
         });
     };
+
 
     return (
         <div className="p-6">
@@ -120,7 +151,7 @@ function PendingDeliverys() {
                                         {parcel.delivery_status === "rider_assigned" && (
                                             <button
                                                 className="px-4 py-3 bg-lime-300 rounded-xl text-black cursor-pointer"
-                                                onClick={() => handlePickup(parcel._id)}
+                                                onClick={() => handlePickup(parcel)}
                                             >
                                                 Mark Picked Up
                                             </button>
@@ -129,7 +160,7 @@ function PendingDeliverys() {
                                         {parcel.delivery_status === "in_transit" && (
                                             <button
                                                 className="px-4 py-3 rounded-xl bg-green-300 text-black cursor-pointer"
-                                                onClick={() => handleDelivered(parcel._id)}
+                                                onClick={() => handleDelivered(parcel)}
                                             >
                                                 Mark Delivered
                                             </button>
