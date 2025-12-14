@@ -71,12 +71,6 @@ const DashboardLayout = () => {
                     </li>
                     <li>
                         <NavLink to="/dashboard" className="text-[18px] font-heading font-medium text-heading">
-                            <FaSearchLocation className="inline-block mr-2 text-2xl" />
-                            Track a Package
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/dashboard" className="text-[18px] font-heading font-medium text-heading">
                             <FaUserEdit className="inline-block mr-2 text-2xl" />
                             Update Profile
                         </NavLink>

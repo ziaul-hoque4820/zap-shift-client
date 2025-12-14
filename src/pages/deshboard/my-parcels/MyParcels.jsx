@@ -135,14 +135,9 @@ function MyParcels() {
                                         payment
                                     </Link>
                                 )}
-
-                                <button className="p-2 rounded-lg bg-blue-100 text-blue-600 hover:bg-blue-200 transition cursor-pointer">
+                                <Link to={`/dashboard/trackParcel/${parcel.tracking_id}`} className="p-2 rounded-lg bg-blue-100 text-blue-600 hover:bg-blue-200 transition cursor-pointer">
                                     <Truck className="w-5 h-5 " />
-                                </button>
-
-                                {/* <button className="p-2 rounded-lg bg-yellow-100 text-yellow-600 hover:bg-yellow-200 transition cursor-pointer">
-                                    <Edit3 className="w-5 h-5" />
-                                </button> */}
+                                </Link>
 
                                 <button onClick={() => handleDelete(parcel._id)} className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition cursor-pointer">
                                     <Trash2 className="w-5 h-5" />

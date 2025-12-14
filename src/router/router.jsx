@@ -122,7 +122,7 @@ const router = createBrowserRouter([
                 Component: PaymentHistory
             },
             {
-                path: 'track',
+                path: 'trackParcel/:trackingId',
                 Component: TrackParcel
             },
             // Rider Routes

@@ -214,7 +214,7 @@ function DashBoard() {
                                 <span className="font-medium">Payment History</span>
                             </Link>
                             <Link
-                                to="/dashboard"
+                                to="/dashboard/myParcels"
                                 className="flex items-center space-x-3 p-3 bg-orange-50 text-orange-700 rounded-lg hover:bg-orange-100 transition-colors"
                             >
                                 <Truck className="w-5 h-5" />
