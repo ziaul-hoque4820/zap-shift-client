@@ -17,7 +17,6 @@ import Coverage from "../pages/coverage/Coverage";
 import PrivateRoute from "../routes/PrivateRoute";
 import DashboardLayout from "../layout/DashboardLayout";
 import MyParcels from "../pages/deshboard/my-parcels/MyParcels";
-import DashBoard from "../pages/deshboard/DashBoard";
 import Payment from "../pages/deshboard/payment/Payment";
 import PaymentHistory from "../pages/deshboard/payment-history/PaymentHistory";
 import TrackParcel from "../pages/deshboard/track-parcel/TrackParcel";
@@ -31,6 +30,7 @@ import RiderRoute from "../routes/RiderRoute";
 import PendingDeliverys from "../pages/deshboard/pending-delivery/PendingDeliverys";
 import CompletedDeliveries from "../pages/deshboard/completed-deliveries/CompletedDeliveries";
 import MyEarning from "../pages/deshboard/my-earning/MyEarning";
+import HomeDeshboard from "../pages/deshboard/home-deshboard/HomeDeshboard";
 
 const router = createBrowserRouter([
     {
@@ -107,7 +107,7 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                Component: DashBoard
+                Component: HomeDeshboard
             },
             {
                 path: 'myParcels',

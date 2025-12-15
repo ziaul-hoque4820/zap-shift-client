@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Package, Truck, CheckCircle, Clock, AlertCircle, DollarSign, MapPin, TrendingUp, Calendar } from "lucide-react";
 
-function DashBoard() {
+function UserDashBoard() {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
 
@@ -247,4 +247,4 @@ function DashBoard() {
     );
 }
 
-export default DashBoard;
+export default UserDashBoard;
