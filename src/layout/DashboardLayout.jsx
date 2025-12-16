@@ -81,7 +81,7 @@ const DashboardLayout = () => {
                         <li>
                             <NavLink to="/dashboard/pendingDeliveries" className="text-[18px] font-heading font-medium text-heading">
                                 <FaTasks className="inline-block mr-2 text-2xl" />
-                                Assign Rider
+                                Pending Deliveries
                             </NavLink>
                         </li>
                         <li>
