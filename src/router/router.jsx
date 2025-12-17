@@ -31,6 +31,7 @@ import PendingDeliverys from "../pages/deshboard/pending-delivery/PendingDeliver
 import CompletedDeliveries from "../pages/deshboard/completed-deliveries/CompletedDeliveries";
 import MyEarning from "../pages/deshboard/my-earning/MyEarning";
 import HomeDeshboard from "../pages/deshboard/home-deshboard/HomeDeshboard";
+import Contact from "../pages/contact/Contact";
 
 const router = createBrowserRouter([
     {
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
             {
                 path: 'coverage',
                 Component: Coverage,
+            },
+            {
+                path: 'contact',
+                Component: Contact,
             },
             {
                 path: '*',
