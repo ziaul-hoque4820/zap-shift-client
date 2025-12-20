@@ -1,49 +1,79 @@
-import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination } from "swiper/modules";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Carousel } from "react-responsive-carousel";
+import "swiper/css";
+import "swiper/css/pagination";
 
-import bannerImg1 from "../../assets/banner/banner1.png";
-import bannerImg2 from "../../assets/banner/banner2.png";
-import bannerImg3 from "../../assets/banner/banner3.png";
+import banner1 from "../../assets/delivery_man-1.png";
+import banner2 from "../../assets/delivery_man-2.png";
+import banner3 from "../../assets/delivery_man-3.png";
+import bgImage from "../../assets/banner-bg.jpg";
 
-function Banner() {
-    const slides = [
-        {
-            image: bannerImg1,
-            alt: "First banner image",
-        },
-        {
-            image: bannerImg2,
-            alt: "Second banner image",
-        },
-        {
-            image: bannerImg3,
-            alt: "Third banner image",
-        },
-    ];
+const banners = [
+    {
+        title: "We Make Sure Your Parcel Arrives On Time – No Fuss.",
+        description:
+            "Enjoy fast, reliable parcel delivery with real-time tracking and zero hassle. From personal packages to business shipments — we deliver on time, every time.",
+        image: banner1,
+    },
+    {
+        title: "Fastest Delivery & Easy Pickup",
+        description:
+            "Enjoy fast, reliable parcel delivery with real-time tracking and zero hassle. From personal packages to business shipments — we deliver on time, every time.",
+        image: banner2,
+    },
+    {
+        title: "Delivery in 30 Minutes at your doorstep",
+        description:
+            "Enjoy fast, reliable parcel delivery with real-time tracking and zero hassle. From personal packages to business shipments — we deliver on time, every time.",
+        image: banner3,
+    },
+];
 
+export default function Banner() {
     return (
-        <Carousel
-            autoPlay={true}
-            infiniteLoop={true}
-            showThumbs={false}
-            showStatus={false}
-            interval={5000}
-            transitionTime={800}
-            stopOnHover={true}
-            useKeyboardArrows={true}
-            dynamicHeight={false}
-            ariaLabel="Homepage Banner Carousel"
+        <section
+            className="w-full bg-cover bg-center"
+            style={{ backgroundImage: `url(${bgImage})` }}
         >
-            {slides.map((slide, index) => (
-                <div
-                    key={index}
-                    className="w-full h-[350px] sm:h-[450px] md:h-[550px] lg:h-[600px] xl:h-[700px] bg-no-repeat bg-cover bg-left"
-                    style={{ backgroundImage: `url(${slide.image})` }}
-                ></div>
-            ))}
-        </Carousel>
+            <div className="">
+                <Swiper
+                    modules={[Autoplay, Pagination]}
+                    autoplay={{ delay: 4000 }}
+                    pagination={{ clickable: true }}
+                    loop={true}
+                    className="container mx-auto"
+                >
+                    {banners.map((item, index) => (
+                        <SwiperSlide key={index}>
+                            <div className="flex flex-col-reverse md:flex-row items-center justify-between px-6 md:px-12 py-20 gap-10 text-white">
+
+                                {/* Left Content */}
+                                <div className="md:w-1/2 space-y-5">
+                                    <div className="w-96">
+                                        <h1 className="text-3xl md:text-5xl font-bold leading-tight">
+                                        {item.title}
+                                    </h1>
+                                    <p className="text-gray-500 text-lg mt-3">
+                                        {item.description}
+                                    </p>
+                                    </div>
+                                </div>
+
+                                {/* Right Image */}
+                                <div className="md:w-1/2 flex justify-center">
+                                    <img
+                                        src={item.image}
+                                        alt="Banner"
+                                        className="max-w-[500px] w-full"
+                                    />
+                                </div>
+
+                            </div>
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            </div>
+        </section>
     );
 }
-
-export default Banner;
