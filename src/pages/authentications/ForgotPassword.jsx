@@ -1,16 +1,30 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 
 function ForgotPassword() {
-    const [error, setError] = useState("");
-    
-        const { register, handleSubmit, formState: { errors } } = useForm();
-    
-        const onSubmit = (data) => {
-            console.log(data);
-        }
-    
+    const { forgetPassword } = useAuth();
+    const navigate = useNavigate();
+
+    const { register, handleSubmit, formState: { errors } } = useForm();
+
+    const onSubmit = (data) => {
+
+        forgetPassword(data.email)
+            .then(() => {
+                alert("Password reset link sent. Check your email.");
+                navigate("/login");
+            })
+            .catch(error => {
+                if (error.code === "auth/user-not-found") {
+                    errors("No account found with this email");
+                } else {
+                    errors("Failed to send reset link");
+                }
+            });
+    }
+
     return (
         <div className="w-full max-w-md mx-auto py-10">
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-2">
@@ -46,11 +60,11 @@ function ForgotPassword() {
                 </div>
 
                 {/* Global form error */}
-                {error && (
+                {/* {error && (
                     <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
                         <p className="text-sm text-red-600 text-center">{error}</p>
                     </div>
-                )}
+                )} */}
 
                 {/* Submit */}
                 <button

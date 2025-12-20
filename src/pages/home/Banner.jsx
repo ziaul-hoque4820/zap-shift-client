@@ -50,7 +50,7 @@ export default function Banner() {
 
                                 {/* Left Content */}
                                 <div className="md:w-1/2 space-y-5">
-                                    <div className="w-96">
+                                    <div className="w-96 px-5">
                                         <h1 className="text-3xl md:text-5xl font-bold leading-tight">
                                         {item.title}
                                     </h1>

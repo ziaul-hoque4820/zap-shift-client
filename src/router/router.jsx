@@ -93,10 +93,6 @@ const router = createBrowserRouter([
                 Component: ForgotPassword
             },
             {
-                path: 'forgot-password',
-                Component: ForgotPassword
-            },
-            {
                 path: 'verifyPassword',
                 Component: VerifyPassword
             },
